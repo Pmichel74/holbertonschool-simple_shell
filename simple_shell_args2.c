@@ -6,8 +6,6 @@
 
 #define MAX_ARGS 64
 
-extern char **environ;
-
 char *read_command(void)
 {
 	char *buffer = NULL;
@@ -69,7 +67,7 @@ void free_tokens(char **tokens)
 	free(tokens);
 }
 
-void execute_command(char **args)
+void execute_command(char **args, char **env)
 {
 	pid_t pid = fork();
 	int status;
@@ -81,9 +79,9 @@ void execute_command(char **args)
 	}
 	else if (pid == 0)
 	{
-		if (execve(args[0], args, environ) == -1)
+		if (execve(args[0], args, env) == -1)
 		{
-			printf("./shell: No such file or directory\n");
+			perror("No such file or directory\n");
 			exit(1);
 		}
 	}
@@ -93,10 +91,11 @@ void execute_command(char **args)
 	}
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	char *command;
 	char **args;
+	char **env = argv + 1;
 
 	while (1)
 	{
@@ -123,7 +122,7 @@ int main(void)
 				free(command);
 				exit(0);
 			}
-			execute_command(args);
+			execute_command(args, env);
 			free_tokens(args);
 		}
 		free(command);
