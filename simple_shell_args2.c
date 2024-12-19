@@ -104,9 +104,11 @@ void execute_command(char **args)
 
 int main(int argc, char *argv[])
 {
-	char *command;
-	char **args;
+	char *command = NULL;
+	char **args = NULL;
 	char **env = argv + 1;
+
+	(void)argc;
 
 	while (1)
 	{
