@@ -5,7 +5,14 @@
 #include <sys/wait.h>
 
 #define MAX_ARGS 64
-
+/**
+ * read_command - Reads a command from standard input
+ *
+ * Return:  NULL if an error occurs
+ *         or if the end of the input stream is reached.
+ *
+ * Note: The caller is responsible for freeing the returned string.
+ */
 char *read_command(void)
 {
 	char *buffer = NULL;
@@ -29,16 +36,21 @@ char *read_command(void)
  * @command: The input command string to be tokenized
  *
  * This function takes a single command string and breaks it down into
- * individual tokens (words). It allocates memory for an array of strings,
- * where each string is a token from the original command. The resulting
- * array is NULL-terminated.
+ * individual tokens (words).
  *
  * Return: A pointer to an array of strings containing the tokens,
  *        or NULL if memory allocation fails or the input is invalid
  */
 char **tokenize_command(char *command)
 {
-	char **tokens = malloc(MAX_ARGS * sizeof(char *));
+	char **tokens;
+
+	tokens = (char **)malloc(MAX_ARGS * sizeof(char *));
+
+	if (tokens == NULL)
+
+	return (NULL);
+
 	char *token;
 	int i = 0;
 	int j;
@@ -69,6 +81,17 @@ char **tokenize_command(char *command)
 	return (tokens);
 }
 
+/**
+ * free_tokens - Frees memory allocated for an array of strings
+ * @tokens: Pointer to an array of strings (char pointers) to be freed
+ *
+ * This function iterates through the array of strings, freeing each
+ * individual string, and then frees the array itself.
+ * the tokenize_command function is NULL.
+ *
+ * Return: void
+ *
+ */
 void free_tokens(char **tokens)
 {
 	int i;
@@ -78,7 +101,16 @@ void free_tokens(char **tokens)
 	free(tokens);
 }
 
-void execute_command(char **args)
+/**
+ * execute_command - Executes a command with its arguments.
+ * The function uses the global environ variable for the environment.
+ * @args: NULL-terminated array of strings containing the command and its args
+ * @env: Array of strings containing environment variables.
+ *
+ * Return: void
+ *
+ */
+void execute_command(char **args, char **env)
 {
 	pid_t pid = fork();
 	int status;
@@ -102,13 +134,21 @@ void execute_command(char **args)
 	}
 }
 
+/**
+ * main - Entry point for the simple shell program
+ * @argc: The argument count (unused)
+ * @argv: The argument vector (unused)
+ *
+ * Return: Always returns 0 (success)
+ *
+ */
 int main(int argc, char *argv[])
 {
 	char *command = NULL;
 	char **args = NULL;
 	char **env = argv + 1;
 
-	(void)argc;
+	(void)argc;/*Turn off warnings*/
 
 	while (1)
 	{
