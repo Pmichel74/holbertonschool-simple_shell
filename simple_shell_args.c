@@ -6,6 +6,8 @@
 
 #define MAX_ARGS 64
 
+extern char **environ;
+
 char *read_command(void)
 {
 	char *buffer = NULL;
@@ -18,11 +20,11 @@ char *read_command(void)
 	if (characters == -1)
 	{
 		free(buffer);
-		return (NULL);
+		return NULL;
 	}
 
 	buffer[strcspn(buffer, "\n")] = '\0';
-	return (buffer);
+	return buffer;
 }
 /**
  * tokenize_command - Splits a command string into an array of tokens
@@ -38,46 +40,38 @@ char *read_command(void)
  */
 char **tokenize_command(char *command)
 {
-	char **tokens = malloc(MAX_ARGS * sizeof(char *));
+	char **tokens;
+
+	tokens = (char **)malloc(MAX_ARGS * sizeof(char *));
+
+	if (tokens == NULL)
+
+	return (NULL);
+
 	char *token;
 	int i = 0;
-	int j;
-
-	if (!tokens)
-	{
-		perror("malloc failed");
-		return (NULL);
-	}
 
 	token = strtok(command, " ");
 	while (token != NULL && i < MAX_ARGS - 1)
 	{
-		tokens[i] = strdup(token);
-		if (!tokens[i])
-		{
-			perror("strdup failed");
-
-			for (j = 0; j < i; j++)
-				free(tokens[j]);
-			free(tokens);
-			return (NULL);
-		}
+		tokens[i] = token;
 		i++;
 		token = strtok(NULL, " ");
 	}
 	tokens[i] = NULL;
-	return (tokens);
+	return tokens;
 }
 
-void free_tokens(char **tokens)
-{
-	int i;
-
-	for (i = 0; tokens[i] != NULL; i++)
-		free(tokens[i]);
-	free(tokens);
-}
-
+/**
+ * execute_command - Executes a command with its arguments
+ * @args: NULL-terminated array of strings containing the command and its args
+ *
+ * This function creates a child process using fork() and executes the
+ * specified command using execve() in the child process. The parent process
+ * waits for the child to complete.
+ *
+ * Return: void
+ */
 void execute_command(char **args)
 {
 	pid_t pid = fork();
@@ -90,9 +84,9 @@ void execute_command(char **args)
 	}
 	else if (pid == 0)
 	{
-		if (execve(args[0], args, env) == -1)
+		if (execve(args[0], args, environ) == -1)
 		{
-			perror("No such file or directory\n");
+			printf("./shell: No such file or directory\n");
 			exit(1);
 		}
 	}
@@ -102,11 +96,10 @@ void execute_command(char **args)
 	}
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	char *command;
 	char **args;
-	char **env = argv + 1;
 
 	while (1)
 	{
@@ -125,19 +118,10 @@ int main(int argc, char *argv[])
 		}
 
 		args = tokenize_command(command);
-		if (args)
-		{
-			if (strcmp(args[0], "exit") == 0)
-			{
-				free_tokens(args);
-				free(command);
-				exit(0);
-			}
-			execute_command(args, env);
-			free_tokens(args);
-		}
+		execute_command(args);
+		free(args);
 		free(command);
-
 	}
+
 	return (0);
 }
