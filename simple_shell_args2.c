@@ -104,7 +104,7 @@ void free_tokens(char **tokens)
 /**
  * execute_command - Executes a command with its arguments.
  * The function uses the global environ variable for the environment.
- * @args: NULL-terminated array of strings containing the command and its args
+ * @args: NULL-terminated array of strings containing the command and its args.
  * @env: Array of strings containing environment variables.
  *
  * Return: void
