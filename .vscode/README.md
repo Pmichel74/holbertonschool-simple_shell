@@ -18,3 +18,33 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 *  Handle the PATH.
 *  Implement the exit built-in, that exits the shell.
 *  Implement the env built-in, that prints the current environment.
+
+### General requirements
+ * Allowed editors: vi, vim, emacs
+ * All your files will be compiled on `Ubuntu 14.04 LTS`
+ * Your C programs and functions will be compiled with `gcc 4.8.4` using the flags `-Wall` `-Werror` `-Wextra` and `-pedantic`
+ * Your code should use the Betty style. It will be checked using betty-style.pl and betty-doc.pl
+ * No more than 5 functions per file
+ * All your header files should be include guarded
+ * This shell should not have any memory leaks
+ * Unless specified otherwise, your program must have the exact same output as `sh` (`/bin/sh`) as well as the exact same error output.
+
+### Allowed functions used 
+
+| System Calls | Library Functions | Process Functions |
+|-------------|-------------------|-------------------|
+| • access | • fflush | • execve |
+| • chdir | • free | • fork |
+| • close | • getline | • getpid |
+| • closedir | • malloc | • kill |
+| • open | • perror | • wait |
+| • opendir | • printf | • waitpid |
+| • read | • fprintf | • wait3 |
+| • write | • sprintf | • wait4 |
+| • signal | • putchar | • _exit |
+| • getcwd | • readdir | • exit |
+| • isatty | • stat | • vfprintf |
+| • lstat | • fstat | • strtok |
+| • stat | • strcat | • strcmp |
+| • strlen | • strcpy | • strncmp |
+| • strncpy | • strstr | • strncat |
