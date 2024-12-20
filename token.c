@@ -1,3 +1,5 @@
+#include "main.h"
+
 /**
  * tokenize_command - Splits a command string into an array of tokens
  * @command: The input command string to be tokenized
@@ -12,16 +14,10 @@
 char **tokenize_command(char *command)
 {
 	char **tokens;
-
-	tokens = (char **)malloc(MAX_ARGS * sizeof(char *));
-
-	if (tokens == NULL)
-
-	return (NULL);
-
 	char *token;
 	int i = 0;
-	int j;
+
+	tokens = malloc(MAX_ARGS * sizeof(char *));
 
 	if (!tokens)
 	{
@@ -36,10 +32,7 @@ char **tokenize_command(char *command)
 		if (!tokens[i])
 		{
 			perror("strdup failed");
-
-			for (j = 0; j < i; j++)
-				free(tokens[j]);
-			free(tokens);
+			free_tokens(tokens);
 			return (NULL);
 		}
 		i++;
@@ -55,9 +48,6 @@ char **tokenize_command(char *command)
  *
  * This function iterates through the array of strings, freeing each
  * individual string, and then frees the array itself.
- * the tokenize_command function is NULL.
- *
- * Return: void
  *
  */
 
