@@ -1,18 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-
-#define MAX_ARGS 64
+#include "main.h"
 
 /**
  * read_command - Reads a command from standard input
  *
- * Return:  NULL if an error occurs
- *         or if the end of the input stream is reached.
+ * This function prompts the user with a shell prompt, then reads a line
+ * of input using getline(). It removes the trailing newline character
+ * if present.
  *
- * Note: The caller is responsible for freeing the returned string.
+ * Return: A dynamically allocated string containing the command,
+ *         or NULL if an error occurs or end-of-file is reached.
  */
 
 char *read_command(void)
@@ -21,7 +17,9 @@ char *read_command(void)
 	size_t bufsize = 0;
 	ssize_t characters;
 
-	printf("#this_is_a_shell_$ ");
+	printf("#my_simple_shell_$ ");
+	fflush(stdout);
+
 	characters = getline(&buffer, &bufsize, stdin);
 
 	if (characters == -1)
@@ -35,35 +33,70 @@ char *read_command(void)
 }
 
 /**
- * execute_command - Executes a command with its arguments.
- * The function uses the global environ variable for the environment.
- * @args: NULL-terminated array of strings containing the command and its args.
- * @env: Array of strings containing environment variables.
+ * fork_and_execute - Forks a new process and executes a command
+ * @command_path: Full path to the command to be executed
+ * @args: NULL-terminated array of command arguments
+ * @envp: Array of environment variables
  *
- * Return: void
- *
+ * This function creates a child process using fork(), then uses execve()
+ * to replace the child process with the specified command. The parent
+ * process waits for the child to complete.
  */
 
-void execute_command(char **args, char **env)
+void fork_and_execute(char *command_path, char **args, char **envp)
 {
 	pid_t pid = fork();
 	int status;
 
 	if (pid == -1)
 	{
-		perror("Error:");
-		exit(1);
+		perror("Error: fork failed");
+		return;
 	}
-	else if (pid == 0)
+
+	if (pid == 0)
 	{
-		if (execve(args[0], args, env) == -1)
+		if (execve(command_path, args, envp) == -1)
 		{
-			perror("No such file or directory\n");
-			exit(1);
+			perror("Error:");
+			exit(EXIT_FAILURE);
 		}
 	}
+
 	else
-	{
 		wait(&status);
+}
+
+/**
+ * execute_command - Prepares and executes a command
+ * @args: NULL-terminated array of command and its arguments
+ * @envp: Array of environment variables
+ *
+ * This function finds the full path of the command using find_command(),
+ * then calls fork_and_execute() to run the command. It handles basic
+ * error checking and frees allocated memory for the command path.
+ */
+
+void execute_command(char **args, char **envp)
+{
+	char *command_path;
+
+	if (!args || !args[0])
+		return;
+
+	if (strcmp(args[0], "env") == 0)
+	{
+		print_env(envp);
+		return;
 	}
+
+	command_path = find_command(args[0], envp);
+
+	if (!command_path)
+	{
+		fprintf(stderr, "%s: command not found\n", args[0]);
+		return;
+	}
+	fork_and_execute(command_path, args, envp);
+	free(command_path);
 }
