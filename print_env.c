@@ -5,7 +5,7 @@
  * @envp: Array of strings containing environment variables
  *
  * This function iterates through the envp array and prints each
- * environment variable to the standard output .
+ * environment variable to the standard output.
  */
 
 void print_env(char *envp[])
