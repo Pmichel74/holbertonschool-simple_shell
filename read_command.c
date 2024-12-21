@@ -17,7 +17,7 @@ char *read_command(void)
 	size_t bufsize = 0;
 	ssize_t characters;
 
-	printf("#my_simple_shell_$ ");
+	printf("$ ");
 	fflush(stdout);
 
 	characters = getline(&buffer, &bufsize, stdin);
