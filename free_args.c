@@ -5,7 +5,7 @@
  * @args: The array of command arguments to be freed
  *
  * This function frees each individual argument string and then
- * frees the array itself.
+ * frees the array itself .
  */
 
 void free_args(char **args)
