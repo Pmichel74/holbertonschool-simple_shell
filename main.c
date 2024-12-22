@@ -1,29 +1,15 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
-#define MAX_COMMAND_LENGTH 100
-
-extern char **environ;
 
 /**
  * main - Simple UNIX command line interpreter
  *
- * This program implements a basic UNIX shell that can:
- * - Display a prompt and wait for user input
- * - Execute simple, single-word commands
- * - Handle errors and "end of file" condition
- * - Use execve to run commands
- *
- * Return: Always 0 (Success)
+ * Return: Always 0
  */
 int main(void)
 {
-    char command[MAX_COMMAND_LENGTH];
+    char *command = NULL;
+    size_t bufsize = 0;
+    ssize_t characters;
     char *args[2];
     pid_t pid;
     int status;
@@ -31,10 +17,20 @@ int main(void)
     while (1)
     {
         write(STDOUT_FILENO, "$ ", 2);
-        if (fgets(command, sizeof(command), stdin) == NULL)
+        characters = getline(&command, &bufsize, stdin);
+        if (characters == -1)
         {
-            write(STDOUT_FILENO, "\n", 1);
-            break;
+            if (feof(stdin))
+            {
+                write(STDOUT_FILENO, "\n", 1);
+                free(command);
+                exit(EXIT_SUCCESS);
+            }
+            else
+            {
+                perror("getline");
+                exit(EXIT_FAILURE);
+            }
         }
 
         command[strcspn(command, "\n")] = '\0';
@@ -48,14 +44,14 @@ int main(void)
         pid = fork();
         if (pid == -1)
         {
-            write(STDERR_FILENO, "Error\n", 6);
+            perror("fork");
             exit(EXIT_FAILURE);
         }
         else if (pid == 0)
         {
             if (execve(args[0], args, environ) == -1)
             {
-                write(STDERR_FILENO, "Error\n", 6);
+                perror(args[0]);
                 exit(EXIT_FAILURE);
             }
         }
@@ -63,11 +59,12 @@ int main(void)
         {
             if (wait(&status) == -1)
             {
-                write(STDERR_FILENO, "Error\n", 6);
+                perror("wait");
                 exit(EXIT_FAILURE);
             }
         }
     }
 
+    free(command);
     return 0;
 }
