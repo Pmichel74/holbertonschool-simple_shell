@@ -1,54 +1,67 @@
-#include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#define MAX_COMMAND_LENGTH 100
 
 /**
- * main - Entry point for the simple shell program
- * @argc: The argument count (unused)
- * @argv: The argument vector (unused)
- * @envp: Array of environment variables
+ * main - Simple UNIX command line interpreter
  *
- * Return: Always returns 0 (success)
+ * Return: Always 0
  */
-
-int main(int argc, char *argv[], char *envp[])
+int main(void)
 {
-	char *command = NULL;
-	char **args;
-	int should_exit = 0;
+    char command[MAX_COMMAND_LENGTH];
+    char *args[2];
+    pid_t pid;
+    int status;
 
-	(void)argc;
-	(void)argv;
+    while (1)
+    {
+        printf("$ ");
+        if (fgets(command, sizeof(command), stdin) == NULL)
+        {
+            printf("\n");
+            break;  /* Handle "end of file" condition (Ctrl+D) */
+        }
 
-	while (!should_exit)
-	{
-		command = read_command();
-		if (command == NULL)
-		{
-			printf("\n");
-			break;
-		}
-		if (strlen(command) == 0)
-		{
-			free(command);
-			continue;
-		}
-		args = tokenize_command(command);
-		if (!args)
-		{
-			free(command);
-			continue;
-		}
-		if (args[0] == NULL)
-		{
-			free_args(args);
-			free(command);
-			continue;
-		}
-		if (strcmp(args[0], "exit") == 0)
-			should_exit = 1;
-		else
-			execute_command(args, envp);
-		free_args(args);
-		free(command);
-	}
-	return (0);
+        /* Remove newline character */
+        command[strcspn(command, "\n")] = '\0';
+
+        if (strlen(command) == 0)
+            continue;  /* Empty command, show prompt again */
+
+        args[0] = command;
+        args[1] = NULL;
+
+        pid = fork();
+        if (pid == -1)
+        {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+        else if (pid == 0)
+        {
+            /* Child process */
+            if (execve(args[0], args, NULL) == -1)
+            {
+                perror("Error");
+                exit(EXIT_FAILURE);
+            }
+        }
+        else
+        {
+            /* Parent process */
+            if (wait(&status) == -1)
+            {
+                perror("wait");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    return 0;
 }
