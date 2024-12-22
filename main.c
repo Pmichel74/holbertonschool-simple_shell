@@ -17,14 +17,11 @@ int main(void)
 		if (fgets(command, sizeof(command), stdin) == NULL)
 		{
 			printf("\n");
-			break;  /* Handle "end of file" condition (Ctrl+D) */
+			break;
 		}
-
 		command[strcspn(command, "\n")] = '\0';
-
 		if (strlen(command) == 0)
 			continue;
-
 		pid = fork();
 		if (pid == -1)
 		{
@@ -34,6 +31,7 @@ int main(void)
 		else if (pid == 0)
 		{
 			char *args[] = {command, NULL};
+
 			if (execve(command, args, NULL) == -1)
 			{
 				printf("Error: No such file or directory\n");
@@ -41,10 +39,7 @@ int main(void)
 			}
 		}
 		else
-		{
 			wait(&status);
-		}
 	}
-
 	return (0);
 }
