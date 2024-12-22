@@ -8,6 +8,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int main(int argc, char *argv[], char *envp[]);
+void print_error(char *prog_name, char *cmd);
 
 #endif /* MAIN_H */
