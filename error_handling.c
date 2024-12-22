@@ -9,7 +9,6 @@ void print_error(char *prog_name, char *cmd)
 {
 	char error_message[100];
 
-	snprintf(error_message, sizeof(error_message),
-		 "%s: 1: %s: not found\n", prog_name, cmd);
+	sprintf(error_message, "%s: 1: %s: not found\n", prog_name, cmd);
 	write(STDERR_FILENO, error_message, strlen(error_message));
 }
