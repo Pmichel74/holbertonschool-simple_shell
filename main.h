@@ -8,6 +8,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int main(int argc, char *argv[], char *envp[]);
+#define MAX_COMMAND_LENGTH 100
+
+int main(void);
 
 #endif /* MAIN_H */
