@@ -1,61 +1,76 @@
 #include "main.h"
 
 /**
-  * main - Main entry point for our program
-  * @argc: Argument count to the main
-  * @argv: Pointer to array of argument values
-  *
-  * Return: O Always success
-  */
-
-int main(int argc, char *argv[])
-{
-		(void)argc, (void)argv;
-		write(STDOUT_FILENO, "MyShell$ ", 9);
-		return (0);
-}
-#include "main.h"
-
-/**
  * main - Simple UNIX command line interpreter
+ * @argc: Argument count (unused)
+ * @argv: Argument vector (unused)
+ * @envp: Environment variables
  *
  * Return: Always 0
  */
-int main(void)
+int main(int argc, char *argv[], char *envp[])
 {
-	char command[MAX_COMMAND_LENGTH];
-	pid_t pid;
-	int status;
+    char *command = NULL;
+    size_t bufsize = 0;
+    ssize_t characters;
+    char *args[2];
+    pid_t pid;
+    int status;
 
-	while (1)
-	{
-		printf("$ ");
-		if (fgets(command, sizeof(command), stdin) == NULL)
-		{
-			printf("\n");
-			break;
-		}
-		command[strcspn(command, "\n")] = '\0';
-		if (strlen(command) == 0)
-			continue;
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("Error");
-			exit(1);
-		}
-		else if (pid == 0)
-		{
-			char *args[] = {command, NULL};
+    (void)argc;
+    (void)argv;
 
-			if (execve(command, args, NULL) == -1)
-			{
-				printf("Error: No such file or directory\n");
-				exit(1);
-			}
-		}
-		else
-			wait(&status);
-	}
-	return (0);
+    while (1)
+    {
+        write(STDOUT_FILENO, "$ ", 2);
+        characters = getline(&command, &bufsize, stdin);
+        if (characters == -1)
+        {
+            if (feof(stdin))
+            {
+                write(STDOUT_FILENO, "\n", 1);
+                free(command);
+                exit(0);
+            }
+            else
+            {
+                perror("getline");
+                exit(1);
+            }
+        }
+
+        command[strcspn(command, "\n")] = '\0';
+
+        if (strlen(command) == 0)
+            continue;
+
+        args[0] = command;
+        args[1] = NULL;
+
+        pid = fork();
+        if (pid == -1)
+        {
+            perror("fork");
+            exit(1);
+        }
+        else if (pid == 0)
+        {
+            if (execve(args[0], args, envp) == -1)
+            {
+                perror(args[0]);
+                exit(1);
+            }
+        }
+        else
+        {
+            if (wait(&status) == -1)
+            {
+                perror("wait");
+                exit(1);
+            }
+        }
+    }
+
+    free(command);
+    return (0);
 }
