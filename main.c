@@ -2,10 +2,13 @@
 
 /**
  * main - Simple UNIX command line interpreter
+ * @argc: Argument count (unused)
+ * @argv: Argument vector (unused)
+ * @envp: Environment variables
  *
  * Return: Always 0
  */
-int main(void)
+int main(int argc, char *argv[], char *envp[])
 {
     char *command = NULL;
     size_t bufsize = 0;
@@ -13,6 +16,9 @@ int main(void)
     char *args[2];
     pid_t pid;
     int status;
+
+    (void)argc;
+    (void)argv;
 
     while (1)
     {
@@ -49,7 +55,7 @@ int main(void)
         }
         else if (pid == 0)
         {
-            if (execve(args[0], args, environ) == -1)
+            if (execve(args[0], args, envp) == -1)
             {
                 perror(args[0]);
                 exit(EXIT_FAILURE);
@@ -66,5 +72,5 @@ int main(void)
     }
 
     free(command);
-    return 0;
+    return (0);
 }
