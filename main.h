@@ -1,5 +1,5 @@
-#ifndef SIMPLE_SHELL_H
-#define SIMPLE_SHELL_H
+#ifndef MAIN_H
+#define MAIN_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +10,8 @@
 
 #define MAX_COMMAND_LENGTH 100
 
+extern char **environ;
+
 int main(void);
 
-#endif
+#endif /* MAIN_H */

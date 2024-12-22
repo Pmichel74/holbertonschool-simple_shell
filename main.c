@@ -1,9 +1,25 @@
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#define MAX_COMMAND_LENGTH 100
+
+extern char **environ;
 
 /**
  * main - Simple UNIX command line interpreter
  *
- * Return: Always 0
+ * This program implements a basic UNIX shell that can:
+ * - Display a prompt and wait for user input
+ * - Execute simple, single-word commands
+ * - Handle errors and "end of file" condition
+ * - Use execve to run commands
+ *
+ * Return: Always 0 (Success)
  */
 int main(void)
 {
@@ -14,18 +30,17 @@ int main(void)
 
     while (1)
     {
-        printf("$ ");
+        write(STDOUT_FILENO, "$ ", 2);
         if (fgets(command, sizeof(command), stdin) == NULL)
         {
-            printf("\n");
-            break;  /* Handle "end of file" condition (Ctrl+D) */
+            write(STDOUT_FILENO, "\n", 1);
+            break;
         }
 
-        /* Remove newline character */
         command[strcspn(command, "\n")] = '\0';
 
         if (strlen(command) == 0)
-            continue;  /* Empty command, show prompt again */
+            continue;
 
         args[0] = command;
         args[1] = NULL;
@@ -33,24 +48,22 @@ int main(void)
         pid = fork();
         if (pid == -1)
         {
-            perror("fork");
+            write(STDERR_FILENO, "Error\n", 6);
             exit(EXIT_FAILURE);
         }
         else if (pid == 0)
         {
-            /* Child process */
-            if (execve(args[0], args, NULL) == -1)
+            if (execve(args[0], args, environ) == -1)
             {
-                perror("Error");
+                write(STDERR_FILENO, "Error\n", 6);
                 exit(EXIT_FAILURE);
             }
         }
         else
         {
-            /* Parent process */
             if (wait(&status) == -1)
             {
-                perror("wait");
+                write(STDERR_FILENO, "Error\n", 6);
                 exit(EXIT_FAILURE);
             }
         }
