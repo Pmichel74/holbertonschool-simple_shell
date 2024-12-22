@@ -39,7 +39,7 @@ int main(int argc, char *argv[], char *envp[])
 			if (execve(command, args, NULL) == -1)
 			{
 				print_error(argv[0], command);
-				exit(127);
+				exit(1);
 			}
 		}
 		else
