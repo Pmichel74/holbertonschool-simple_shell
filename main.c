@@ -14,16 +14,21 @@ int main(int argc, char *argv[], char *envp[])
 	char *command = NULL;
 	char **args;
 	int should_exit = 0;
+	int interactive = isatty(STDIN_FILENO);
 
 	(void)argc;
 
 	while (!should_exit)
 	{
+		if (interactive)
+            write(STDOUT_FILENO, "($) ", 4);
+
 		command = read_command();
 		if (command == NULL)
 		{
-			printf("\n");
-			break;
+			if (interactive)
+                write(STDOUT_FILENO, "\n", 1);
+            break;
 		}
 		if (strlen(command) == 0)
 		{
@@ -48,6 +53,9 @@ int main(int argc, char *argv[], char *envp[])
 			execute_command(args, envp, argv[0]);
 		free_args(args);
 		free(command);
+
+		if (!interactive)
+            should_exit = 1;
 	}
 	return (0);
 }
