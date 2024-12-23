@@ -37,7 +37,7 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 		}
 		if (WIFEXITED(status))
 		{
-			return WEXITSTATUS(status);
+			return (WEXITSTATUS(status));
 		}
 		else
 		{
