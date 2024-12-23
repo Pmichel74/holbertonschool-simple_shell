@@ -16,7 +16,6 @@ int main(int argc, char *argv[], char *envp[])
 	int should_exit = 0;
 
 	(void)argc;
-	(void)argv;
 
 	while (!should_exit)
 	{
@@ -46,7 +45,7 @@ int main(int argc, char *argv[], char *envp[])
 		if (strcmp(args[0], "exit") == 0)
 			should_exit = 1;
 		else
-			execute_command(args, envp);
+			execute_command(args, envp, argv[0]);
 		free_args(args);
 		free(command);
 	}

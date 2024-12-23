@@ -14,7 +14,7 @@ int main(int argc, char *argv[], char *envp[]);
 
 char *read_command(void);
 void fork_and_execute(char *command_path, char **args, char **envp);
-void execute_command(char **args, char **envp);
+void execute_command(char **args, char **envp, char *program_name);
 
 char **tokenize_command(char *command);
 void free_tokens(char **tokens);
