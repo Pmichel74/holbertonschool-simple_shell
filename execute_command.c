@@ -14,7 +14,6 @@ void execute_command(char **args, char **envp, char *program_name)
 {
     char *command_path;
     struct stat st;
-    int result;
 
     if (!args || !args[0])
         return;
@@ -49,8 +48,7 @@ void execute_command(char **args, char **envp, char *program_name)
         return;
     }
 
-    result = fork_and_execute(command_path, args, envp);
-    if (result == -1)
+	if (fork_and_execute(command_path, args, envp) == -1)
     {
         fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));
     }
