@@ -1,6 +1,4 @@
 #include "main.h"
-#include <sys/stat.h>
-#include <errno.h>
 
 /**
  * execute_command - Executes a command with given arguments

@@ -3,10 +3,10 @@
 /**
  * fork_and_execute - Forks a new process and executes a command
  * @command_path: Full path to the command to be executed
- * @args: NULL-terminated array of command arguments
+ * @args: Array of command arguments
  * @envp: Array of environment variables
  *
- * Return: 0 on success, -1 on failure
+ * Return: Exit status of the child process, or -1 on failure
  */
 int fork_and_execute(char *command_path, char **args, char **envp)
 {
@@ -21,6 +21,7 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 	}
 	else if (pid == 0)
 	{
+		/* Child process */
 		if (execve(command_path, args, envp) == -1)
 		{
 			perror("Error: execve failed");
@@ -29,6 +30,7 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 	}
 	else
 	{
+		/* Parent process */
 		if (wait(&status) == -1)
 		{
 			perror("Error: wait failed");
