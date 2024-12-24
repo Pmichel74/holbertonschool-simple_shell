@@ -1,6 +1,4 @@
 #include "main.h"
-#include <sys/stat.h>
-#include <errno.h>
 
 /**
  * execute_command - Executes a command with given arguments
@@ -14,6 +12,7 @@ int execute_command(char **args, char **envp, char *program_name)
 {
 	char *command_path = NULL;
 	struct stat st;
+	int result;
 
 	if (!args || !args[0])
 		return (-1);
@@ -27,7 +26,14 @@ int execute_command(char **args, char **envp, char *program_name)
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
 		if (stat(args[0], &st) == 0 && st.st_mode & S_IXUSR)
+		{
 			command_path = strdup(args[0]);
+			if (!command_path)
+			{
+				perror("strdup");
+				return (-1);
+			}
+		}
 	}
 	else
 		command_path = find_command(args[0], envp);
@@ -38,5 +44,7 @@ int execute_command(char **args, char **envp, char *program_name)
 		return (-1);
 	}
 
-	return (forking_helper(command_path, args, envp));
+	result = forking_helper(command_path, args, envp);
+	free(command_path);
+	return (result);
 }
