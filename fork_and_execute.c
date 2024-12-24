@@ -30,16 +30,19 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 	}
 	else
 	{
-		if (waitpid(pid, &status, 0) == -1)
+		if (wait(&status) == -1)
 		{
 			perror("Error: wait failed");
 			return (-1);
 		}
 		if (WIFEXITED(status))
+		{
 			return (WEXITSTATUS(status));
-		if (WIFSIGNALED(status))
-			return (128 + WTERMSIG(status));
+		}
+		else
+		{
 			return (-1);
+		}
 	}
+	return (0);
 }
-
