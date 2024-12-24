@@ -6,31 +6,36 @@
  * @args: NULL-terminated array of command arguments
  * @envp: Array of environment variables
  *
- * This function creates a child process using fork(), then uses execve()
- * to replace the child process with the specified command. The parent
- * process waits for the child to complete.
+ * Return: 0 on success, -1 on failure
  */
-
-void fork_and_execute(char *command_path, char **args, char **envp)
+int fork_and_execute(char *command_path, char **args, char **envp)
 {
-	pid_t pid = fork();
+	pid_t pid;
 	int status;
 
+	pid = fork();
 	if (pid == -1)
 	{
 		perror("Error: fork failed");
-		return;
+		return (-1);
 	}
-
-	if (pid == 0)
+	else if (pid == 0)
 	{
 		if (execve(command_path, args, envp) == -1)
 		{
-			perror("Error:");
+			perror("Error: execve failed");
 			exit(EXIT_FAILURE);
 		}
 	}
-
 	else
-		wait(&status);
+	{
+		if (wait(&status) == -1)
+		{
+			perror("Error: wait failed");
+			return (-1);
+		}
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+	}
+	return (-1);
 }
