@@ -8,6 +8,7 @@
  *
  * Return: Always returns 0 (success)
  */
+
 int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	char *line = NULL;
@@ -20,6 +21,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	{
 		if (interactive)
 			printf("$ ");
+
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
 		{
@@ -28,21 +30,21 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			break;
 		}
 		if (nread > 0 && line[nread - 1] == '\n')
-			line[nread - 1] = '\0';
+			line[nread - 1] = '\0';  /*Remove newline character*/
 		if (strlen(line) == 0)
 			continue;
 		args = tokenize_command(line);
-		if (!args || args[0] == NULL)
+		if (!args)
+			continue;
+		if (args[0] == NULL)
 		{
 			free_args(args);
 			continue;
 		}
 		if (strcmp(args[0], "exit") == 0)
 		{
-			int exit_status = lsh_exit(args);
-
-			free(line);
-			exit(exit_status);
+			free_args(args);
+			break;
 		}
 		execute_command(args, envp, argv[0]);
 		free_args(args);
