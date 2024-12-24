@@ -1,14 +1,13 @@
 #include "main.h"
 
 /**
- * main - Entry point for the simple shell program
- * @argc: The argument count (unused)
- * @argv: The argument vector (unused)
+ * main - Main execution loop for the simple shell program
+ * @argc: Argument count (unused)
+ * @argv: Argument vector
  * @envp: Array of environment variables
  *
  * Return: Always returns 0 (success)
  */
-
 int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
 	char *line = NULL;
@@ -16,12 +15,12 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	ssize_t nread;
 	char **args;
 	int interactive = isatty(STDIN_FILENO);
+	int status;
 
 	while (1)
 	{
 		if (interactive)
 			printf("$ ");
-
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
 		{
@@ -30,13 +29,11 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			break;
 		}
 		if (nread > 0 && line[nread - 1] == '\n')
-			line[nread - 1] = '\0';  /*Remove newline character*/
+			line[nread - 1] = '\0';
 		if (strlen(line) == 0)
 			continue;
 		args = tokenize_command(line);
-		if (!args)
-			continue;
-		if (args[0] == NULL)
+		if (!args || args[0] == NULL)
 		{
 			free_args(args);
 			continue;
@@ -46,7 +43,9 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			free_args(args);
 			break;
 		}
-		execute_command(args, envp, argv[0]);
+		status = execute_command(args, envp, argv[0]);
+		if (status == -1)
+			fprintf(stderr, "%s: command not found\n", args[0]);
 		free_args(args);
 	}
 	free(line);

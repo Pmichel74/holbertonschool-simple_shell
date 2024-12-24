@@ -10,20 +10,20 @@
  */
 int fork_and_execute(char *command_path, char **args, char **envp)
 {
-	pid_t pid = fork();
+	pid_t pid;
 	int status;
 
+	pid = fork();
 	if (pid == -1)
 	{
 		perror("Error: fork failed");
 		return (-1);
 	}
-
-	if (pid == 0)
+	else if (pid == 0)
 	{
 		if (execve(command_path, args, envp) == -1)
 		{
-			perror("Error:");
+			perror("Error: execve failed");
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -35,13 +35,7 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 			return (-1);
 		}
 		if (WIFEXITED(status))
-		{
 			return (WEXITSTATUS(status));
-		}
-		else
-		{
-			return (-1);
-		}
 	}
-	return (0);
+	return (-1);
 }
