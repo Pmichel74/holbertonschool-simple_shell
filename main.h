@@ -26,6 +26,7 @@ char *search_in_path(char *command, char *path);
 char *find_command(char *command, char *envp[]);
 
 void free_args(char **args);
+int lsh_exit(char **args);
 
 void print_env(char *envp[]);
 
