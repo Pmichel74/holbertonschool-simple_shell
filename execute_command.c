@@ -1,46 +1,36 @@
 #include "main.h"
 
 /**
- * execute_command - Executes a command with given arguments
- * @args: Array of command arguments
+ * execute_command - Prepares and executes a command
+ * @args: NULL-terminated array of command and its arguments
  * @envp: Array of environment variables
- * @program_name: Name of the shell program
+ * @program_name: name of program
  *
- * Return: 0 on success, -1 on failure
+ * This function finds the full path of the command using find_command(),
+ * then calls fork_and_execute() to run the command. It handles basic
+ * error checking and frees allocated memory for the command path.
  */
-int execute_command(char **args, char **envp, char *program_name)
+
+void execute_command(char **args, char **envp, char *program_name)
 {
 	char *command_path;
-	struct stat st;
 
 	if (!args || !args[0])
-		return (-1);
+		return;
 
 	if (strcmp(args[0], "env") == 0)
 	{
 		print_env(envp);
-		return (0);
+		return;
 	}
 
-	if (args[0][0] == '/' || args[0][0] == '.')
-	{
-		if (stat(args[0], &st) == 0 && st.st_mode & S_IXUSR)
-			command_path = args[0];
-		else
-		{
-			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-			return (-1);
-		}
-	}
-	else
-	{
-		command_path = find_command(args[0], envp);
-		if (!command_path)
-		{
-			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-			return (-1);
-		}
-	}
+	command_path = find_command(args[0], envp);
 
-	return (fork_and_execute(command_path, args, envp));
+	if (!command_path)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+		return;
+	}
+	fork_and_execute(command_path, args, envp);
+	free(command_path);
 }

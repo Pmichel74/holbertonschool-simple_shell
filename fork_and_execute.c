@@ -3,41 +3,34 @@
 /**
  * fork_and_execute - Forks a new process and executes a command
  * @command_path: Full path to the command to be executed
- * @args: Array of command arguments
+ * @args: NULL-terminated array of command arguments
  * @envp: Array of environment variables
  *
- * Return: Exit status of the child process, or -1 on failure
+ * This function creates a child process using fork(), then uses execve()
+ * to replace the child process with the specified command. The parent
+ * process waits for the child to complete.
  */
-int fork_and_execute(char *command_path, char **args, char **envp)
+
+void fork_and_execute(char *command_path, char **args, char **envp)
 {
-	pid_t pid;
+	pid_t pid = fork();
 	int status;
 
-	pid = fork();
 	if (pid == -1)
 	{
 		perror("Error: fork failed");
-		return (-1);
+		return;
 	}
-	else if (pid == 0)
+
+	if (pid == 0)
 	{
-		/* Child process */
 		if (execve(command_path, args, envp) == -1)
 		{
-			perror("Error: execve failed");
+			perror("Error:");
 			exit(EXIT_FAILURE);
 		}
 	}
+
 	else
-	{
-		/* Parent process */
-		if (wait(&status) == -1)
-		{
-			perror("Error: wait failed");
-			return (-1);
-		}
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-	}
-	return (-1);
+		wait(&status);
 }
