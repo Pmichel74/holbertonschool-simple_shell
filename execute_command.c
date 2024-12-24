@@ -10,27 +10,50 @@
  * then calls fork_and_execute() to run the command. It handles basic
  * error checking and frees allocated memory for the command path.
  */
-
 void execute_command(char **args, char **envp, char *program_name)
 {
-	char *command_path;
+    char *command_path;
+    struct stat st;
+    int result;
 
-	if (!args || !args[0])
-		return;
+    if (!args || !args[0])
+        return;
 
-	if (strcmp(args[0], "env") == 0)
-	{
-		print_env(envp);
-		return;
-	}
+    if (strcmp(args[0], "env") == 0)
+    {
+        print_env(envp);
+        return;
+    }
 
-	command_path = find_command(args[0], envp);
+    if (args[0][0] == '/' || args[0][0] == '.')
+    {
+        /* Chemin absolu ou relatif*/
+        if (stat(args[0], &st) == 0 && st.st_mode & S_IXUSR)
+        {
+            command_path = strdup(args[0]);
+        }
+        else
+        {
+            fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+            return;
+        }
+    }
+    else
+    {
+        command_path = find_command(args[0], envp);
+    }
 
-	if (!command_path)
-	{
-		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-		return;
-	}
-	fork_and_execute(command_path, args, envp);
-	free(command_path);
+    if (!command_path)
+    {
+        fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+        return;
+    }
+
+    result = fork_and_execute(command_path, args, envp);
+    if (result == -1)
+    {
+        fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));
+    }
+
+    free(command_path);
 }

@@ -1,4 +1,5 @@
 #include "main.h"
+#include <sys/wait.h>
 
 /**
  * fork_and_execute - Forks a new process and executes a command
@@ -6,12 +7,9 @@
  * @args: NULL-terminated array of command arguments
  * @envp: Array of environment variables
  *
- * This function creates a child process using fork(), then uses execve()
- * to replace the child process with the specified command. The parent
- * process waits for the child to complete.
+ * Return: 0 on success, -1 on failure
  */
-
-void fork_and_execute(char *command_path, char **args, char **envp)
+int fork_and_execute(char *command_path, char **args, char **envp)
 {
 	pid_t pid = fork();
 	int status;
@@ -19,7 +17,7 @@ void fork_and_execute(char *command_path, char **args, char **envp)
 	if (pid == -1)
 	{
 		perror("Error: fork failed");
-		return;
+		return (-1);
 	}
 
 	if (pid == 0)
@@ -30,7 +28,22 @@ void fork_and_execute(char *command_path, char **args, char **envp)
 			exit(EXIT_FAILURE);
 		}
 	}
-
 	else
-		wait(&status);
+	{
+		if (wait(&status) == -1)
+		{
+			perror("Error: wait failed");
+			return (-1);
+		}
+		if (WIFEXITED(status))
+		{
+			return (WEXITSTATUS(status));
+		}
+		else
+		{
+			return (-1);
+		}
+	}
+	return (0);
 }
+

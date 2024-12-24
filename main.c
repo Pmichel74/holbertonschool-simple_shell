@@ -9,45 +9,46 @@
  * Return: Always returns 0 (success)
  */
 
-int main(int argc, char *argv[], char *envp[])
+int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
-	char *command = NULL;
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t nread;
 	char **args;
-	int should_exit = 0;
+	int interactive = isatty(STDIN_FILENO);
 
-	(void)argc;
-
-	while (!should_exit)
+	while (1)
 	{
-		command = read_command();
-		if (command == NULL)
+		if (interactive)
+			printf("$ ");
+
+		nread = getline(&line, &len, stdin);
+		if (nread == -1)
 		{
-			printf("\n");
+			if (interactive)
+				printf("\n");
 			break;
 		}
-		if (strlen(command) == 0)
-		{
-			free(command);
+		if (nread > 0 && line[nread - 1] == '\n')
+			line[nread - 1] = '\0';  /*Remove newline character*/
+		if (strlen(line) == 0)
 			continue;
-		}
-		args = tokenize_command(command);
+		args = tokenize_command(line);
 		if (!args)
-		{
-			free(command);
 			continue;
-		}
 		if (args[0] == NULL)
 		{
 			free_args(args);
-			free(command);
 			continue;
 		}
 		if (strcmp(args[0], "exit") == 0)
-			should_exit = 1;
-		else
-			execute_command(args, envp, argv[0]);
+		{
+			free_args(args);
+			break;
+		}
+		execute_command(args, envp, argv[0]);
 		free_args(args);
-		free(command);
 	}
+	free(line);
 	return (0);
 }
