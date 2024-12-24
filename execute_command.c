@@ -1,4 +1,6 @@
 #include "main.h"
+#include <sys/stat.h>
+#include <errno.h>
 
 /**
  * execute_command - Executes a command with given arguments
@@ -25,7 +27,7 @@ int execute_command(char **args, char **envp, char *program_name)
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
 		if (stat(args[0], &st) == 0 && st.st_mode & S_IXUSR)
-			command_path = strdup(args[0]);
+			command_path = args[0];
 		else
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
@@ -33,21 +35,14 @@ int execute_command(char **args, char **envp, char *program_name)
 		}
 	}
 	else
+	{
 		command_path = find_command(args[0], envp);
-
-	if (!command_path)
-	{
-		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-		return (-1);
+		if (!command_path)
+		{
+			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+			return (-1);
+		}
 	}
 
-	if (fork_and_execute(command_path, args, envp) == -1)
-	{
-		fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));
-		free(command_path);
-		return (-1);
-	}
-
-	free(command_path);
-	return (0);
+	return (fork_and_execute(command_path, args, envp));
 }
