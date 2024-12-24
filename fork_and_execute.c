@@ -1,5 +1,4 @@
 #include "main.h"
-#include <sys/wait.h>
 
 /**
  * fork_and_execute - Forks a new process and executes a command
@@ -7,44 +6,42 @@
  * @args: NULL-terminated array of command arguments
  * @envp: Array of environment variables
  *
- * Return: Exit status of the child process, or -1 on failure
+ * Return: 0 on success, -1 on failure
  */
 int fork_and_execute(char *command_path, char **args, char **envp)
 {
-	pid_t pid;
+	pid_t pid = fork();
 	int status;
 
-	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
+		perror("Error: fork failed");
 		return (-1);
 	}
 
 	if (pid == 0)
 	{
-		/* Child process */
 		if (execve(command_path, args, envp) == -1)
 		{
-			perror("execve");
+			perror("Error:");
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		/* Parent process */
-		if (waitpid(pid, &status, 0) == -1)
+		if (wait(&status) == -1)
 		{
-			perror("waitpid");
+			perror("Error: wait failed");
 			return (-1);
 		}
-
 		if (WIFEXITED(status))
+		{
 			return (WEXITSTATUS(status));
-		if (WIFSIGNALED(status))
-			return (128 + WTERMSIG(status));
-		return (-1);
+		}
+		else
+		{
+			return (-1);
+		}
 	}
-
-	return (0); /* This line should never be reached */
+	return (0);
 }
