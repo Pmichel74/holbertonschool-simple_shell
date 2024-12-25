@@ -9,8 +9,12 @@
  * Return: 0 on success, -1 on failure
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 int execute_command(char **args, char **envp,
 char *program_name __attribute__((unused)))
+=======
+int execute_command(char **args, char **envp, char *program_name)
+>>>>>>> 6d24d6b (syn)
 =======
 int execute_command(char **args, char **envp, char *program_name)
 >>>>>>> 6d24d6b (syn)
@@ -34,6 +38,10 @@ int execute_command(char **args, char **envp, char *program_name)
 		else
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+>>>>>>> 6d24d6b (syn)
 =======
 			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
 >>>>>>> 6d24d6b (syn)
@@ -46,6 +54,10 @@ int execute_command(char **args, char **envp, char *program_name)
 	if (!command_path)
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+>>>>>>> 6d24d6b (syn)
 =======
 		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
 >>>>>>> 6d24d6b (syn)
@@ -55,6 +67,10 @@ int execute_command(char **args, char **envp, char *program_name)
 	if (fork_and_execute(command_path, args, envp) == -1)
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));
+>>>>>>> 6d24d6b (syn)
 =======
 		fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));
 >>>>>>> 6d24d6b (syn)
