@@ -13,7 +13,7 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 	pid_t pid;
 	int status;
 
-if (!command_path || !args || !envp)
+	if (!command_path || !args || !envp)
 	{
 		errno = EINVAL;
 		return (-1);

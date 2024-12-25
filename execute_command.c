@@ -44,11 +44,10 @@ int execute_command(char **args, char **envp, char *program_name)
 
 	status = fork_and_execute(command_path, args, envp);
 	if (status == -1)
-    {
+	{
 		fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0],
 		strerror(errno));
-    }
-
+	}
 	free(command_path);
 	return (status);
 }
