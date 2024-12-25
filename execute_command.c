@@ -12,7 +12,6 @@ int execute_command(char **args, char **envp, char *program_name)
 {
 	char *command_path;
 	struct stat st;
-	int status;
 
 	if (!args || !args[0])
 		return (-1);
@@ -42,12 +41,13 @@ int execute_command(char **args, char **envp, char *program_name)
 		return (-1);
 	}
 
-	status = fork_and_execute(command_path, args, envp);
-	if (status == -1)
+	if (fork_and_execute(command_path, args, envp) == -1)
 	{
-		fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0],
-		strerror(errno));
+		fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));
+		free(command_path);
+		return (-1);
 	}
+
 	free(command_path);
-	return (status);
+	return (0);
 }
