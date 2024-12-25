@@ -24,11 +24,11 @@ char *find_command(char *command, char *envp[])
 		return (NULL);
 
 	absolute_path = search_in_path(command, path);
-	if (!absolute_path)
+	/*if (!absolute_path)
 	{
 		fprintf(stderr, "%s: command not found\n", command);
 		return (NULL);
-	}
+	}*/
 
 	return (absolute_path);
 }
