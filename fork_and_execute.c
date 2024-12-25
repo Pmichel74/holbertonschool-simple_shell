@@ -18,6 +18,11 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 		errno = EINVAL;
 		return (-1);
 	}
+	if (!command_path || access(command_path, X_OK) != 0)
+	{
+	errno = ENOENT;
+	return (-1);
+	}
 
 	pid = fork();
 	if (pid == -1)
