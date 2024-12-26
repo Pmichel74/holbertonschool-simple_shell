@@ -28,7 +28,7 @@ int execute_command(char **args, char **envp, char *program_name)
 			command_path = strdup(args[0]);
 		else
 		{
-			fprintf(stderr, "%s: 1: %s: not found./\n", program_name, args[0]);
+			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
 			return (-1);
 		}
 	}
