@@ -41,7 +41,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		if (strcmp(args[0], "exit") == 0)
 		{
 			free_args(args);
-			free(line);
 			break;
 		}
 		status = execute_command(args, envp, argv[0]);
@@ -49,5 +48,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			fprintf(stderr, "%s: 1: %s: not found\n", argv[0], args[0]);
 		free_args(args);
 	}
+	free(line);
 	return (0);
 }
