@@ -35,7 +35,8 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		args = tokenize_command(line);
 		if (!args || args[0] == NULL)
 		{
-			free_args(args);
+			if (args)
+				free_args(args);
 			continue;
 		}
 		if (strcmp(args[0], "exit") == 0)
