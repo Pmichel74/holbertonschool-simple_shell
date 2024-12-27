@@ -13,6 +13,12 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 	pid_t pid;
 	int status;
 
+	if (access(command_path, X_OK) == -1)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", args[0], args[0]);
+		return (-1);
+	}
+
 	pid = fork();
 	if (pid == -1)
 	{
