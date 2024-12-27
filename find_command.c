@@ -26,7 +26,7 @@ char *find_command(char *command, char *envp[])
 	absolute_path = search_in_path(command, path);
 	if (!absolute_path)
 	{
-		/*fprintf(stderr, "%s: command not found\n", command);*/
+		fprintf(stderr, "%s: command not found\n", command);
 		return (NULL);
 	}
 
