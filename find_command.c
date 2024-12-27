@@ -24,8 +24,6 @@ char *find_command(char *command, char *envp[])
 		return (NULL);
 
 	absolute_path = search_in_path(command, path);
-	free(path);
-
 	if (!absolute_path)
 		return (NULL);
 
