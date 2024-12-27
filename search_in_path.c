@@ -35,7 +35,7 @@ char *search_in_path(char *command, char *path)
 		strcat(file_path, "/");
 		strcat(file_path, command);
 
-		if (stat(file_path, &buffer) == 0)
+		if (stat(file_path, &buffer) == 0 && access(file_path, X_OK) == 0)
 		{
 			free(path_copy);
 			return (file_path);
