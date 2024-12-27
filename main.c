@@ -20,7 +20,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	while (1)
 	{
 		if (interactive)
-			printf("$ ");
+			printf(":) ");
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
 		{
