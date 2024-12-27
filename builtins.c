@@ -8,5 +8,6 @@
 int lsh_exit(char **args)
 {
 	(void)args;
+	free(args);
 	return (200);
 }
