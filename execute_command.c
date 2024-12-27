@@ -8,7 +8,8 @@
  *
  * Return: 0 on success, -1 on failure
  */
-int execute_command(char **args, char **envp, char *program_name)
+int execute_command(char **args, char **envp,
+char *program_name __attribute__((unused)))
 {
 	char *command_path;
 	struct stat st;
@@ -28,7 +29,7 @@ int execute_command(char **args, char **envp, char *program_name)
 			command_path = strdup(args[0]);
 		else
 		{
-			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+			/*fprintf(stderr, "%s: 1: %s: nouuut found\n", program_name, args[0]);*/
 			return (-1);
 		}
 	}
@@ -37,13 +38,13 @@ int execute_command(char **args, char **envp, char *program_name)
 
 	if (!command_path)
 	{
-		fprintf(stderr, "%s: 1: %s: noot found\n", program_name, args[0]);
+		/*fprintf(stderr, "%s: 1: %s: noot found\n", program_name, args[0]);*/
 		return (-1);
 	}
 
 	if (fork_and_execute(command_path, args, envp) == -1)
 	{
-		fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));
+		/*fprintf(stderr, "%s: 1: %s: %s\n", program_name, args[0], strerror(errno));*/
 		free(command_path);
 		return (-1);
 	}
