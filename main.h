@@ -18,9 +18,6 @@ char *read_command(void);
 int fork_and_execute(char *command_path, char **args, char **envp);
 int execute_command(char **args, char **envp, char *program_name);
 
-
-
-
 char **tokenize_command(char *command);
 void free_tokens(char **tokens);
 
@@ -31,6 +28,7 @@ char *find_command(char *command, char *envp[]);
 
 void free_args(char **args);
 int lsh_exit(char **args);
+
 
 void print_env(char *envp[]);
 
