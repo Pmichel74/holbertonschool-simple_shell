@@ -8,17 +8,18 @@
  */
 int is_valid_number(const char *str)
 {
-    int i; /* Déclaration de i avant la boucle*/
-    if (str == NULL || *str == '\0')
-        return (0);
+	int i;
 
-    for (i = 0; str[i] != '\0'; i++)
-    {
-        if (!isdigit(str[i]))
-            return (0);
-    }
+	if (str == NULL || *str == '\0')
+		return (0);
 
-    return (1);
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		if (!isdigit(str[i]))
+			return (0);
+	}
+
+	return (1);
 }
 
 /**
@@ -33,9 +34,9 @@ int exitshell(char *buffer)
 {
 	int status = 0;
 	char *arg;
+	char *exit_token;
 
-	char *exit_token = strtok(buffer, " ");
-
+	exit_token = strtok(buffer, " ");
 	if (strcmp(exit_token, "exit") == 0)
 	{
 		arg = strtok(NULL, " ");
@@ -44,7 +45,7 @@ int exitshell(char *buffer)
 			if (is_valid_number(arg))
 			{
 				status = atoi(arg);
-				return status;
+				return (status);
 			}
 			else
 			{
