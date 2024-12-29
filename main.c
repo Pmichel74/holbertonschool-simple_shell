@@ -32,22 +32,27 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			line[nread - 1] = '\0';
 		if (strlen(line) == 0)
 			continue;
+
+		exit_shell(line);
+
 		args = tokenize_command(line);
 		if (!args || args[0] == NULL)
 		{
 			free_args(args);
 			continue;
 		}
-		if (strcmp(args[0], "exit") == 0)
+		/*if (strcmp(args[0], "exit") == 0)
 		{
 			free_args(args);
 			break;
-		}
+		}*/
 		status = execute_command(args, envp, argv[0]);
 		if (status == -1)
 			fprintf(stderr, "%s: 1: %s: not found\n", argv[0], args[0]);
 		free_args(args);
+		free(line);
+		line = NULL;
 	}
-	free(line);
+	/*free(line);*/
 	return (0);
 }
