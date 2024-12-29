@@ -30,7 +30,6 @@ char *find_command(char *command, char *envp[]);
 
 void free_args(char **args);
 int lsh_exit(char **args);
-void exit_shell(char *buffer);
 
 void print_env(char *envp[]);
 
