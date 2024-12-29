@@ -32,7 +32,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			line[nread - 1] = '\0';
 		if (strlen(line) == 0)
 			continue;
-
 		args = tokenize_command(line);
 		if (!args || args[0] == NULL)
 		{
