@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- *exitshell - will exit the shell when the word exit is entered by the user
+ *exit_shell - will exit the shell when the word exit is entered by the user
  *@buffer: takes the arg from the user
  *Return: void
  */
