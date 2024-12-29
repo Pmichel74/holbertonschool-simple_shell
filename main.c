@@ -1,65 +1,26 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
 
 /**
- * main - Entry point for the simple shell program.
- * @argc: The number of command-line arguments.
- * @argv: An array of command-line argument strings.
- * @envp: An array of environment variable strings.
- *
- * Return: Always 0.
- */
-int main(int argc, char **argv, char **envp)
+ * main - Main execution loop for the simple shell program
+ * @argc: Argument count (unused)
+ * @argv: Argument vector
+ * @envp: Array of environment variables
+ *
+ * Return: Always returns 0 (success)
+ */
+int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
-	(void)argc;
-
 	char *line = NULL;
 	size_t len = 0;
-	ssize_t read;
-	char *args[MAX_ARGS];
-	int command_counter = 1;
-	char *program_name = argv[0];
-	int i;
-	char *token;
-	int interactive_mode;
+	ssize_t nread;
+	char **args;
+	int interactive = isatty(STDIN_FILENO);
+	int status;
 
-/* Check if the shell is running in interactive mode */
-interactive_mode = isatty(STDIN_FILENO);
-
-while (1)
-{
-	if (interactive_mode)
-	printf(":) ");
-
-	read = getline(&line, &len, stdin);
-
-	if (read == -1)
-{
-	if (interactive_mode)
-		printf("\n");
-	break;
-}
-
-line[strcspn(line, "\n")] = 0;
-
-i = 0;
-token = strtok(line, " ");
-while (token != NULL && i < MAX_ARGS - 1)
-{
-	args[i] = token;
-	i++;
-	token = strtok(NULL, " ");
-}
-args[i] = NULL;
-
-if (args[0] != NULL)
+	while (1)
 	{
-<<<<<<< HEAD
 		if (interactive)
-			printf(":) ");
+			printf("$ ");
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
 		{
@@ -74,21 +35,19 @@ if (args[0] != NULL)
 		args = tokenize_command(line);
 		if (!args || args[0] == NULL)
 		{
-			if (args)
-				free_args(args);
+			free_args(args);
 			continue;
 		}
-=======
->>>>>>> ef38c67 (synch)
 		if (strcmp(args[0], "exit") == 0)
 		{
-			free(line); /* Libération de la mémoire avant de quitter */
-			exit(0);
+			free_args(args);
+			break;
 		}
-		execute_command(args, envp, program_name, command_counter);
+		status = execute_command(args, envp, argv[0]);
+		if (status == -1)
+			fprintf(stderr, "%s: 1: %s: not found\n", argv[0], args[0]);
+		free_args(args);
 	}
-	command_counter++;
-}
-free(line); /* Libération de la mémoire à la fin du programme */
-return (0);
+	free(line);
+	return (0);
 }
