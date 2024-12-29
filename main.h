@@ -7,10 +7,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/wait.h>
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <ctype.h>
-#include <signal.h>
 
 #define MAX_ARGS 64
 
@@ -20,8 +17,7 @@ int main(int argc, char *argv[], char *envp[]);
 char *read_command(void);
 int fork_and_execute(char *command_path, char **args, char **envp);
 int execute_command(char **args, char **envp, char *program_name);
-int exitshell(char *buffer);
-int is_valid_number(const char *str);
+
 
 
 
