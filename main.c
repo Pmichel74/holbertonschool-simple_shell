@@ -40,8 +40,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		}
 		if (strcmp(args[0], "exit") == 0)
 		{
-			free_args(args);
-			break;
+			handle_exit(args);
 		}
 		status = execute_command(args, envp, argv[0]);
 		if (status == -1)
