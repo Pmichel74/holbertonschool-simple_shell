@@ -41,7 +41,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		{
 			free_args(args);
 			free(line);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		status = execute_command(args, envp, argv[0]);
 		if (status == -1)
