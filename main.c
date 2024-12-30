@@ -48,5 +48,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 			fprintf(stderr, "%s: 1: %s: not found\n", argv[0], args[0]);
 		free_args(args);
 	}
+	free(line);
 	return (0);
 }
