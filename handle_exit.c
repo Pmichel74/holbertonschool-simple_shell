@@ -6,21 +6,7 @@
  *
  * Return: always return 0 for successful execution
  */
-int handle_exit(char **args)
+int handle_exit(char **args __attribute__((unused)))
 {
-	if (args[1] != NULL)
-	{
-		char *endptr;
-		long status = strtol(args[1], &endptr, 10);
-	/*	status = _atoi(args[1]); */
-
-		/*exit(status);*/
-		if (*endptr != '\0')
-		{
-			fprintf(stderr, "Usage: exit status\n");
-			return (1);
-		}
-		exit((int)status);
-	}
-	exit(0);
+    exit(0);
 }
