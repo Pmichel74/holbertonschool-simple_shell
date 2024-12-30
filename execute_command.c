@@ -3,13 +3,12 @@
 /**
  * execute_command - Executes a command with given arguments
  * @args: Array of command arguments
- * @argv: Array of command arguments
  * @envp: Array of environment variables
- * @shell_name: Name of the shell program
+ * @program_name: Name of the shell program
  *
  * Return: 0 on success, -1 on failure
  */
-int execute_command(char **args, char **envp, char *shell_name)
+int execute_command(char **args, char **envp, char *program_name)
 {
 	char *command_path = NULL;
 	struct stat st;
@@ -33,8 +32,13 @@ int execute_command(char **args, char **envp, char *shell_name)
 		command_path = find_command(args[0], envp);
 	}
 
+	if (!command_path)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+		return (-1);
+	}
 
-	if (fork_and_execute(command_path, args, envp, shell_name) == -1)
+	if (fork_and_execute(command_path, args, envp) == -1)
 	{
 		free(command_path);
 		return (-1);
