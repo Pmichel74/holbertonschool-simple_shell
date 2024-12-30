@@ -14,7 +14,12 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	size_t len = 0;
 	ssize_t nread;
 	char **args;
+<<<<<<< HEAD
 	int interactive = isatty(STDIN_FILENO), status;
+=======
+	int interactive = isatty(STDIN_FILENO);
+	int status;
+>>>>>>> 7a6cf92 (updates main)
 
 	while (1)
 	{
@@ -40,8 +45,12 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		if (strcmp(args[0], "exit") == 0)
 		{
 			free_args(args);
+<<<<<<< HEAD
 			free(line);
 			exit(EXIT_SUCCESS);
+=======
+			break;
+>>>>>>> 7a6cf92 (updates main)
 		}
 		status = execute_command(args, envp, argv[0]);
 		if (status == -1)
