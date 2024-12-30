@@ -45,9 +45,8 @@ exit(EXIT_SUCCESS);
 }
 status = execute_command(args, envp, argv[0]);
 if (status == -1)
-fprintf(stderr, "%s: 1: %s: not found\n", argv[0], args[0]);
 free_args(args);
 }
-	free(line);
+free(line);
 return (0);
 }

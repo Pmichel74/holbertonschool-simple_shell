@@ -23,9 +23,9 @@ int fork_and_execute(char *command_path, char **args, char **envp)
 	if (pid == -1)
 	{
 		perror("Error: fork failed");
-		return (-1);
+		return (EXIT_FAILURE);
 	}
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		if (execve(command_path, args, envp) == -1)
 		{

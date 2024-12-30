@@ -8,7 +8,8 @@
  *
  * Return: 0 on success, -1 on failure
  */
-int execute_command(char **args, char **envp, char *program_name)
+int execute_command(char **args, char **envp,
+char *program_name __attribute__((unused)))
 {
 	char *command_path = NULL;
 	struct stat st;
@@ -32,11 +33,6 @@ int execute_command(char **args, char **envp, char *program_name)
 		command_path = find_command(args[0], envp);
 	}
 
-	if (!command_path)
-	{
-		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-		return (-1);
-	}
 
 	if (fork_and_execute(command_path, args, envp) == -1)
 	{
