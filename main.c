@@ -1,53 +1,110 @@
 #include "main.h"
 
 /**
-* main - Main execution loop for the simple shell program
-* @argc: Argument count (unused)
-* @argv: Argument vector
-* @envp: Array of environment variables
-*
-* Return: Always returns 0 (success)
-*/
-int main(int argc __attribute__((unused)), char *argv[], char *envp[])
+ * main - A function that runs our shell.
+ * @ac: The number of inputed arguments.
+ * @av: The pointer to array of inputed arguments.
+ * @env: The pointer to array of enviromental variables.
+ * Return: Always 0.
+ */
+int main(int ac, char **av, char **env)
 {
-char *line = NULL;
-size_t len = 0;
-ssize_t nread;
-char **args;
-int interactive = isatty(STDIN_FILENO), status;
+	char *buffer = NULL, **command = NULL;
+	size_t buf_size = 0;
+	ssize_t chars_readed = 0;
+	int cicles = 0;
+	(void)ac;
 
-while (1)
-{
-if (interactive)
-printf("$ ");
-nread = getline(&line, &len, stdin);
-if (nread == -1)
-{
-if (interactive)
-printf("\n");
-break;
+	while (1)
+	{
+		cicles++;
+		prompt();
+		signal(SIGINT, handle);
+		chars_readed = getline(&buffer, &buf_size, stdin);
+		if (chars_readed == EOF)
+			_EOF(buffer);
+		else if (*buffer == '\n')
+			free(buffer);
+		else
+		{
+			buffer[_strlen(buffer) - 1] = '\0';
+			command = tokening(buffer, " \0");
+			free(buffer);
+			if (_strcmp(command[0], "exit") != 0)
+				shell_exit(command);
+			else if (_strcmp(command[0], "cd") != 0)
+				change_dir(command[1]);
+			else
+				create_child(command, av[0], env, cicles);
+		}
+		fflush(stdin);
+		buffer = NULL, buf_size = 0;
+	}
+	if (chars_readed == -1)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
-if (nread > 0 && line[nread - 1] == '\n')
-line[nread - 1] = '\0';
-if (strlen(line) == 0)
-continue;
-args = tokenize_command(line);
-if (!args || args[0] == NULL)
+
+
+/**
+ * prompt - A function that prints the prompt
+ * Return: Nothing.
+ */
+void prompt(void)
 {
-free_args(args);
-continue;
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, "$ ", 3);
 }
-if (strcmp(args[0], "exit") == 0)
+
+
+/**
+ * handle - A function to handle Ctr + C signal.
+ * @signals: The signal to handle.
+ * Return: Nothing.
+ */
+void handle(int signals)
 {
-free_args(args);
-free(line);
-exit(EXIT_SUCCESS);
+	(void)signals;
+	write(STDOUT_FILENO, "\n$ ", 4);
 }
-status = execute_command(args, envp, argv[0]);
-if (status == -1)
-fprintf(stderr, "%s: 1: %s: not found\n", argv[0], args[0]);
-free_args(args);
+
+
+/**
+ * _EOF - A function that checks if buffer is EOF
+ * @buffer: The pointer to the input string.
+ * Return: Nothing
+ */
+void _EOF(char *buffer)
+{
+	if (buffer)
+	{
+		free(buffer);
+		buffer = NULL;
+	}
+
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, "\n", 1);
+	free(buffer);
+	exit(EXIT_SUCCESS);
 }
-	free(line);
-return (0);
+
+
+/**
+ * shell_exit - A function that exits the shell.
+ * @command: The pointer to tokenized command.
+ * Return: Nothing.
+ */
+void shell_exit(char **command)
+{
+	int sta_tus = 0;
+
+	if (command[1] == NULL)
+	{
+		free_dp(command);
+		exit(EXIT_SUCCESS);
+	}
+
+	sta_tus = _atoi(command[1]);
+	free_dp(command);
+	exit(sta_tus);
 }

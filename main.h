@@ -1,35 +1,62 @@
-#ifndef MAIN_H
-#define MAIN_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <errno.h>
-#include <sys/wait.h>
+#ifndef _MAIN_H_
+#define _MAIN_H_
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 
-#define MAX_ARGS 64
+/*==================================================*/
+/*============     Shell_Init       ==============*/
+/*==================================================*/
 
+int main(int ac, char **av, char **env);
+void prompt(void);
+void handle(int signals);
+void _EOF(char *buffer);
+void shell_exit(char **command);
 
-int main(int argc, char *argv[], char *envp[]);
+/*==================================================*/
+/*============     create_child       ==============*/
+/*==================================================*/
 
-char *read_command(void);
-int fork_and_execute(char *command_path, char **args, char **envp);
-int execute_command(char **args, char **envp, char *program_name);
+void create_child(char **command, char *name, char **env, int cicles);
+int change_dir(const char *path);
 
-char **tokenize_command(char *command);
-void free_tokens(char **tokens);
+/*==================================================*/
+/*============        Execute       ==============*/
+/*==================================================*/
 
-char *find_path(char *envp[]);
-char *check_absolute_path(char *command);
-char *search_in_path(char *command, char *path);
-char *find_command(char *command, char *envp[]);
+void execute(char **command, char *name, char **env, int cicles);
+void print_env(char **env);
+char **_getPATH(char **env);
+void msgerror(char *name, int cicles, char **command);
 
-void free_args(char **args);
-int lsh_exit(char **args);
+/*==================================================*/
+/*============          Tokening      ==============*/
+/*==================================================*/
 
+char **tokening(char *buffer, const char *s);
 
-void print_env(char *envp[]);
+/*==================================================*/
+/*============     Free Memory      ==============*/
+/*==================================================*/
 
-#endif
+void free_dp(char **command);
+void free_exit(char **command);
+
+/*==================================================*/
+/*============  Auxiliar_Functions    ==============*/
+/*==================================================*/
+
+int _strcmp(char *s1, char *s2);
+unsigned int _strlen(char *s);
+char *_strcpy(char *dest, char *src);
+int _atoi(char *s);
+char *_strcat(char *dest, char *src);
+
+/*============ END      ==============*/
+
+#endif /* _SHELL_H_ */

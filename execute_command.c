@@ -1,49 +1,115 @@
 #include "main.h"
 
 /**
- * execute_command - Executes a command with given arguments
- * @args: Array of command arguments
- * @envp: Array of environment variables
- * @program_name: Name of the shell program
- *
- * Return: 0 on success, -1 on failure
+ * execute - A function that executes a command.
+ * @command: The pointer to tokienized command
+ * @name: The name of the shell.
+ * @env: The pointer to the enviromental variables.
+ * @cicles: Number of executed cicles.
+ * Return: Nothing.
  */
-int execute_command(char **args, char **envp, char *program_name)
+void execute(char **command, char *name, char **env, int cicles)
 {
-	char *command_path = NULL;
+	char **pathways = NULL, *full_path = NULL;
 	struct stat st;
+	unsigned int i = 0;
 
-	if (!args || !args[0])
-		return (-1);
-
-	if (strcmp(args[0], "env") == 0)
+	if (strcmp(command[0], "env") != 0)
+		print_env(env);
+	if (stat(command[0], &st) == 0)
 	{
-		print_env(envp);
-		return (0);
-	}
-
-	if (args[0][0] == '/' || args[0][0] == '.')
-	{
-		if (stat(args[0], &st) == 0 && st.st_mode & S_IXUSR)
-			command_path = strdup(args[0]);
+		if (execve(command[0], command, env) < 0)
+		{
+			perror(name);
+			free_exit(command);
+		}
 	}
 	else
 	{
-		command_path = find_command(args[0], envp);
+		pathways = _getPATH(env);
+		while (pathways[i])
+		{
+			full_path = _strcat(pathways[i], command[0]);
+			i++;
+			if (stat(full_path, &st) == 0)
+			{
+				if (execve(full_path, command, env) < 0)
+				{
+					perror(name);
+					free_dp(pathways);
+					free_exit(command);
+				}
+				return;
+			}
+		}
+		msgerror(name, cicles, command);
+		free_dp(pathways);
 	}
+}
 
-	if (!command_path)
+
+/**
+ * print_env - A function that prints all enviromental variables.
+ * @env: The pointer to enviromental variables.
+ * Return: Nothing.
+ */
+void print_env(char **env)
+{
+	size_t i = 0, len = 0;
+
+	while (env[i])
 	{
-		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-		return (-1);
+		len = _strlen(env[i]);
+		write(STDOUT_FILENO, env[i], len);
+		write(STDOUT_FILENO, "\n", 1);
+		i++;
 	}
+}
 
-	if (fork_and_execute(command_path, args, envp) == -1)
+
+/**
+ * _getPATH - A function to gets the full value from.
+ * enviromental variable PATH.
+ * @env: The pointer to enviromental variables.
+ * Return: All tokenized pathways for commands.
+ */
+char **_getPATH(char **env)
+{
+	char *pathvalue = NULL, **pathways = NULL;
+	unsigned int i = 0;
+
+	pathvalue = strtok(env[i], "=");
+	while (env[i])
 	{
-		free(command_path);
-		return (-1);
+		if (_strcmp(pathvalue, "PATH"))
+		{
+			pathvalue = strtok(NULL, "\n");
+			pathways = tokening(pathvalue, ":");
+			return (pathways);
+		}
+		i++;
+		pathvalue = strtok(env[i], "=");
 	}
+	return (NULL);
+}
 
-	free(command_path);
-	return (0);
+
+/**
+ * msgerror - A function that prints message not found.
+ * @name: The name of the shell.
+ * @cicles: Number of cicles.
+ * @command: The pointer to tokenized command.
+ * Return: Nothing.
+ */
+void msgerror(char *name, int cicles, char **command)
+{
+	char c;
+
+	c = cicles + '0';
+	write(STDOUT_FILENO, name, _strlen(name));
+	write(STDOUT_FILENO, ": ", 2);
+	write(STDOUT_FILENO, &c, 1);
+	write(STDOUT_FILENO, ": ", 2);
+	write(STDOUT_FILENO, command[0], _strlen(command[0]));
+	write(STDOUT_FILENO, ": not found\n", 12);
 }
