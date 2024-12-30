@@ -15,7 +15,12 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	ssize_t nread;
 	char **args;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	int interactive = isatty(STDIN_FILENO), status;
+=======
+	int interactive = isatty(STDIN_FILENO);
+	int status;
+>>>>>>> 7a6cf92 (updates main)
 =======
 	int interactive = isatty(STDIN_FILENO);
 	int status;
@@ -46,8 +51,12 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		{
 			free_args(args);
 <<<<<<< HEAD
+<<<<<<< HEAD
 			free(line);
 			exit(EXIT_SUCCESS);
+=======
+			break;
+>>>>>>> 7a6cf92 (updates main)
 =======
 			break;
 >>>>>>> 7a6cf92 (updates main)
