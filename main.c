@@ -60,11 +60,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
                     fprintf(stderr, "%s: exit: Illegal number: %s\n", argv[0], args[1]);
                     exit_status = 2;
                 }
-<<<<<<< HEAD
            	}
-=======
-            }
->>>>>>> 719c9e6 (fixed main)
 
 			free_args(args);
 			free(line);
