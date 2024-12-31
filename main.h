@@ -37,4 +37,7 @@ void print_env(char *envp[]);
 int string_to_int(const char *str, int *result);
 int exit_command(char **args, char *program_name, int last_status);
 
+char *copy_and_reallocate(char *old_buf, size_t old_size, size_t new_size);
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
+
 #endif

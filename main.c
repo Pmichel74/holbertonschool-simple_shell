@@ -23,7 +23,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		if (interactive)
 			write(STDOUT_FILENO, "$ ", 2);
 
-		nread = getline(&line, &len, stdin);
+		nread = custom_getline(&line, &len, stdin);
 		if (nread == -1)
 		{
 			if (interactive)
