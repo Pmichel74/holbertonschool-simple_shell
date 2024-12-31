@@ -1,64 +1,61 @@
 #include "main.h"
 
+#define BUFSIZE 1024
+
 /**
- * custom_getline - Reads an entire line from stream
- * @lineptr: Pointer to the buffer that will store the line
- * @n: Pointer to the size of the buffer
- * @stream: The stream to read from (unused)
+ * custom_getline - Custom getline function
+ * @lineptr: Pointer to buffer where line is stored
+ * @n: Pointer to size of buffer
+ * @stream: File stream (unused)
  *
- * Return: Number of characters read, -1 on failure
+ * Return: Number of bytes read, -1 on failure
  */
 ssize_t custom_getline(char **lineptr, size_t *n,
 FILE *stream __attribute__((unused)))
 {
-    static char buffer[1024];
-    static int buf_size;
-    static int buf_pos;
-    int line_pos = 0;
-    char *temp;
+	static char buf[BUFSIZE];
+	static int i, len;
+	int j;
+	char c, *new_ptr;
 
-    if (!lineptr || !n)
-        return (-1);
-
-    if (*lineptr == NULL)
-    {
-        *n = 128;
-        *lineptr = malloc(sizeof(char) * (*n));
-        if (!*lineptr)
-            return (-1);
-    }
-
-    while (1)
-    {
-        if (buf_pos == buf_size)
-        {
-            buf_size = read(STDIN_FILENO, buffer, 1024);
-            buf_pos = 0;
-            if (buf_size <= 0)
-                return (-1);
-        }
-
-        if ((size_t)line_pos + 1 >= *n)
-        {
-            *n *= 2;
-            temp = malloc(*n);
-            if (!temp)
-                return (-1);
-            memcpy(temp, *lineptr, line_pos);
-            free(*lineptr);
-            *lineptr = temp;
-        }
-
-        (*lineptr)[line_pos] = buffer[buf_pos];
-
-        if (buffer[buf_pos] == '\n')
-        {
-            (*lineptr)[line_pos + 1] = '\0';
-            buf_pos++;
-            return (line_pos + 1);
-        }
-
-        line_pos++;
-        buf_pos++;
-    }
+	if (lineptr == NULL || n == NULL)
+		return (-1);
+	if (*lineptr == NULL)
+	{
+		*n = BUFSIZE;
+		*lineptr = malloc(*n);
+		if (*lineptr == NULL)
+			return (-1);
+	}
+	j = 0;
+	while (1)
+	{
+		if (i >= len)
+		{
+			i = len = 0;
+			len = read(STDIN_FILENO, buf, BUFSIZE);
+			if (len == -1)
+				return (-1);
+			if (len == 0 && j == 0)
+				return (-1);
+			if (len == 0)
+				break;
+		}
+		c = buf[i++];
+		if (j >= (int)*n - 1)
+		{
+			*n += BUFSIZE;
+			new_ptr = malloc(*n);
+			if (!new_ptr)
+				return (-1);
+			memcpy(new_ptr, *lineptr, j);
+			free(*lineptr);
+			*lineptr = new_ptr;
+		}
+		(*lineptr)[j++] = c;
+		if (c == '\n')
+			break;
+	}
+	(*lineptr)[j] = '\0';
+	return (j);
 }
