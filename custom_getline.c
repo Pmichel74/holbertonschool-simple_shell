@@ -11,22 +11,20 @@
  *
  * Return: New buffer or NULL if failed
  */
-
-char *copy_and_reallocate(char *old_buf, size_t old_size,
-size_t new_size)
+static char *copy_and_reallocate(char *old_buf, size_t old_size, size_t new_size)
 {
-	char *new_buf;
-	size_t i;
+    char *new_buf;
+    size_t i;
 
-	new_buf = malloc(new_size);
-	if (!new_buf)
-		return (NULL);
+    new_buf = malloc(new_size);
+    if (!new_buf)
+        return (NULL);
 
-	for (i = 0; i < old_size && i < new_size; i++)
-		new_buf[i] = old_buf[i];
+    for (i = 0; i < old_size && i < new_size; i++)
+        new_buf[i] = old_buf[i];
 
-	free(old_buf);
-	return (new_buf);
+    free(old_buf);
+    return (new_buf);
 }
 
 /**
@@ -37,55 +35,55 @@ size_t new_size)
  *
  * Return: Number of characters read, -1 if error
  */
-
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 {
-	static char read_buf[READ_BUF_SIZE];
-	static size_t buf_pos;
-	static ssize_t chars_read;
-	size_t line_pos = 0;
-	char *new_ptr;
+    static char read_buf[READ_BUF_SIZE];
+    static ssize_t buf_pos, chars_in_buf;
+    ssize_t line_pos = 0;
+    char *new_ptr;
 
-	if (!lineptr || !n || !stream)
-		return (-1);
+    if (!lineptr || !n || !stream)
+        return (-1);
 
-	if (*lineptr == NULL)
-	{
-		*n = INITIAL_BUF_SIZE;
-		*lineptr = malloc(*n);
-		if (!*lineptr)
-			return (-1);
-	}
+    if (*lineptr == NULL || *n == 0)
+    {
+        *n = INITIAL_BUF_SIZE;
+        *lineptr = malloc(*n);
+        if (!*lineptr)
+            return (-1);
+    }
 
-	while (1)
-	{
-		if (buf_pos >= (size_t)chars_read)
-		{
-			chars_read = read(fileno(stream), read_buf, READ_BUF_SIZE);
-			buf_pos = 0;
-			if (chars_read <= 0)
-			{
-				if (line_pos == 0)
-					return (-1);
-				break;
-			}
-		}
+    while (1)
+    {
+        if (buf_pos >= chars_in_buf)
+        {
+            buf_pos = 0;
+            chars_in_buf = read(fileno(stream), read_buf, READ_BUF_SIZE);
+            if (chars_in_buf <= 0)
+            {
+                if (line_pos == 0)
+                    return (-1);
+                break;
+            }
+        }
 
-		if (line_pos >= *n - 1)
-		{
-			new_ptr = copy_and_reallocate(*lineptr, *n, *n * 2);
-			if (!new_ptr)
-				return (-1);
-			*lineptr = new_ptr;
-			*n *= 2;
-		}
+        if ((size_t)line_pos >= *n - 1)
+        {
+            new_ptr = copy_and_reallocate(*lineptr, *n, *n * 2);
+            if (!new_ptr)
+                return (-1);
+            *lineptr = new_ptr;
+            *n *= 2;
+        }
 
-		(*lineptr)[line_pos++] = read_buf[buf_pos++];
+        (*lineptr)[line_pos] = read_buf[buf_pos];
+        line_pos++;
+        buf_pos++;
 
-		if ((*lineptr)[line_pos - 1] == '\n')
-			break;
-	}
+        if ((*lineptr)[line_pos - 1] == '\n')
+            break;
+    }
 
-	(*lineptr)[line_pos] = '\0';
-	return (line_pos);
+    (*lineptr)[line_pos] = '\0';
+    return (line_pos);
 }
