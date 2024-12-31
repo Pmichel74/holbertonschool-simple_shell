@@ -11,40 +11,56 @@
 ssize_t custom_getline(char **lineptr, size_t *n,
 FILE *stream __attribute__((unused)))
 {
-	static char buff[BUFSIZ];
-	static ssize_t buff_i;
-	static ssize_t bytes_read;
-	ssize_t i = 0;
-	char c;
+    static char buffer[8192];
+    static ssize_t buffer_pos;
+    static ssize_t buffer_size;
+    ssize_t count = 0;
+    char *temp_ptr;
 
-	if (!lineptr || !n)
-		return (-1);
+    if (lineptr == NULL || n == NULL)
+        return (-1);
 
-	if (*lineptr == NULL)
-	{
-		*n = BUFSIZ;
-		*lineptr = malloc(*n);
-		if (*lineptr == NULL)
-			return (-1);
-	}
+    if (*lineptr == NULL)
+    {
+        *lineptr = malloc(128);
+        if (*lineptr == NULL)
+            return (-1);
+        *n = 128;
+    }
 
-	while (1)
-	{
-		if (buff_i >= bytes_read)
-		{
-			bytes_read = read(STDIN_FILENO, buff, BUFSIZ);
-			if (bytes_read <= 0)
-				return (-1);
-			buff_i = 0;
-		}
+    for (;;)
+    {
+        if (buffer_pos >= buffer_size)
+        {
+            buffer_size = read(STDIN_FILENO, buffer, 8192);
+            buffer_pos = 0;
+            if (buffer_size <= 0)
+            {
+                if (count == 0)
+                    return (-1);
+                break;
+            }
+        }
 
-		c = buff[buff_i++];
-		(*lineptr)[i++] = c;
+        if (count + 1 >= (ssize_t)*n)
+        {
+            temp_ptr = malloc((*n) * 2);
+            if (temp_ptr == NULL)
+                return (-1);
+            memcpy(temp_ptr, *lineptr, count);
+            free(*lineptr);
+            *lineptr = temp_ptr;
+            *n = (*n) * 2;
+        }
 
-		if (c == '\n' || i >= BUFSIZ - 1)
-			break;
-	}
+        (*lineptr)[count] = buffer[buffer_pos];
+        count++;
+        buffer_pos++;
 
-	(*lineptr)[i] = '\0';
-	return (i);
+        if ((*lineptr)[count - 1] == '\n')
+            break;
+    }
+
+    (*lineptr)[count] = '\0';
+    return (count);
 }
