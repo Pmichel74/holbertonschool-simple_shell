@@ -12,7 +12,8 @@
  * Return: New buffer or NULL if failed
  */
 
-char *copy_and_reallocate(char *old_buf, size_t old_size, size_t new_size)
+char *copy_and_reallocate(char *old_buf, size_t old_size,
+size_t new_size)
 {
 	char *new_buf;
 	size_t i;
@@ -39,9 +40,9 @@ char *copy_and_reallocate(char *old_buf, size_t old_size, size_t new_size)
 
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 {
-	char read_buf[READ_BUF_SIZE];
-	size_t buf_pos;
-	ssize_t chars_read;
+	static char read_buf[READ_BUF_SIZE];
+	static size_t buf_pos;
+	static ssize_t chars_read;
 	size_t line_pos = 0;
 	char *new_ptr;
 
