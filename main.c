@@ -15,6 +15,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	ssize_t nread;
 	char **args;
 	int interactive = isatty(STDIN_FILENO);
+	int exit_status;
 	int last_status = 0;
 
 	while (1)
@@ -45,26 +46,11 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 
 		if (strcmp(args[0], "exit") == 0)
 		{
-			int exit_status = last_status;
+    		exit_status = exit_command(args, argv[0], last_status);
 
-            if (args[1] != NULL)
-            {
-                int parsed_status;
-
-                if (string_to_int(args[1], &parsed_status) == 0)
-                {
-                    exit_status = parsed_status;
-                }
-                else
-                {
-                    fprintf(stderr, "%s: exit: Illegal number: %s\n", argv[0], args[1]);
-                    exit_status = 2;
-                }
-           	}
-
-			free_args(args);
-			free(line);
-			exit(exit_status);
+    		free_args(args);
+    		free(line);
+    		exit(exit_status);
 		}
 
 		last_status = execute_command(args, envp, argv[0]);
