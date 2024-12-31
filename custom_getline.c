@@ -1,5 +1,7 @@
 #include "main.h"
 
+#define BUFFER_SIZE 1024
+
 /**
  * custom_getline - Read line from stdin
  * @lineptr: Pointer to the buffer that will hold the read line
@@ -11,56 +13,51 @@
 ssize_t custom_getline(char **lineptr, size_t *n,
 FILE *stream __attribute__((unused)))
 {
-    static char buffer[8192];
-    static ssize_t buffer_pos;
-    static ssize_t buffer_size;
-    ssize_t count = 0;
-    char *temp_ptr;
+    static char buffer[BUFFER_SIZE];
+    static ssize_t pos;
+    static ssize_t chars_read;
+    ssize_t i;
+    char *new_ptr;
+    char c;
 
     if (lineptr == NULL || n == NULL)
         return (-1);
 
     if (*lineptr == NULL)
     {
-        *lineptr = malloc(128);
+        *n = BUFFER_SIZE;
+        *lineptr = malloc(*n);
         if (*lineptr == NULL)
             return (-1);
-        *n = 128;
     }
 
-    for (;;)
+    i = 0;
+    while (1)
     {
-        if (buffer_pos >= buffer_size)
+        if (pos >= chars_read)
         {
-            buffer_size = read(STDIN_FILENO, buffer, 8192);
-            buffer_pos = 0;
-            if (buffer_size <= 0)
-            {
-                if (count == 0)
-                    return (-1);
-                break;
-            }
-        }
-
-        if (count + 1 >= (ssize_t)*n)
-        {
-            temp_ptr = malloc((*n) * 2);
-            if (temp_ptr == NULL)
+            chars_read = read(STDIN_FILENO, buffer, BUFFER_SIZE);
+            if (chars_read <= 0)
                 return (-1);
-            memcpy(temp_ptr, *lineptr, count);
-            free(*lineptr);
-            *lineptr = temp_ptr;
-            *n = (*n) * 2;
+            pos = 0;
         }
 
-        (*lineptr)[count] = buffer[buffer_pos];
-        count++;
-        buffer_pos++;
+        c = buffer[pos++];
+        if (i >= (ssize_t)(*n - 1))
+        {
+            new_ptr = malloc(*n * 2);
+            if (new_ptr == NULL)
+                return (-1);
+            memcpy(new_ptr, *lineptr, i);
+            free(*lineptr);
+            *lineptr = new_ptr;
+            *n *= 2;
+        }
+        (*lineptr)[i++] = c;
 
-        if ((*lineptr)[count - 1] == '\n')
+        if (c == '\n')
             break;
     }
-
-    (*lineptr)[count] = '\0';
-    return (count);
+    (*lineptr)[i] = '\0';
+    return (i);
 }
