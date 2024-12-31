@@ -17,7 +17,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
     int interactive = isatty(STDIN_FILENO);
     int last_status = 0;
 
-<<<<<<< HEAD
     while (1)
     {
         if (interactive)
@@ -51,6 +50,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
             if (args[1] != NULL)
             {
                 int parsed_status;
+
                 if (string_to_int(args[1], &parsed_status) == 0)
                 {
                     exit_status = parsed_status;
@@ -73,40 +73,4 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 
     free(line);
     return (last_status);
-=======
-while (1)
-{
-if (interactive)
-printf("$ ");
-nread = getline(&line, &len, stdin);
-if (nread == -1)
-{
-if (interactive)
-printf("\n");
-break;
-}
-if (nread > 0 && line[nread - 1] == '\n')
-line[nread - 1] = '\0';
-if (strlen(line) == 0)
-continue;
-args = tokenize_command(line);
-if (!args || args[0] == NULL)
-{
-free_args(args);
-continue;
-}
-if (strcmp(args[0], "exit") == 0)
-{
-free_args(args);
-free(line);
-exit(EXIT_SUCCESS);
-}
-status = execute_command(args, envp, argv[0]);
-if (status == -1)
-/*fprintf(stderr, "%s: 1: %s: not fomainund\n", argv[0], args[0]);*/
-free_args(args);
-}
-	free(line);
-return (0);
->>>>>>> dcd8586 (sync)
 }
