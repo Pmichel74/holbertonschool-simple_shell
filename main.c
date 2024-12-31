@@ -43,11 +43,27 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
             continue;
         }
 
-        if (strcmp(args[0], "exit") == 0)
+   if (strcmp(args[0], "exit") == 0)
         {
+            int exit_status = last_status;
+
+            if (args[1] != NULL)
+            {
+                int parsed_status;
+                if (string_to_int(args[1], &parsed_status) == 0)
+                {
+                    exit_status = parsed_status;
+                }
+                else
+                {
+                    fprintf(stderr, "%s: exit: Illegal number: %s\n", argv[0], args[1]);
+                    exit_status = 2;
+                }
+            }
+
             free_args(args);
             free(line);
-            exit(last_status);
+            exit(exit_status);
         }
 
         last_status = execute_command(args, envp, argv[0]);
