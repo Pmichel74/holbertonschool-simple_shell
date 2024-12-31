@@ -19,13 +19,15 @@ int string_to_int(const char *str, int *result)
     int sign = 1;
     const char *ptr = str;
 
-    if (*ptr == '-')
-    {
-        sign = -1;
+    while (*ptr == ' ' || *ptr == '\t')
         ptr++;
-    }
-    else if (*ptr == '+')
+
+    if (*ptr == '\0')
+        return (-1);
+
+    if (*ptr == '-' || *ptr == '+')
     {
+        sign = (*ptr == '-') ? -1 : 1;
         ptr++;
     }
 
@@ -35,6 +37,9 @@ int string_to_int(const char *str, int *result)
     while (*ptr)
     {
         if (*ptr < '0' || *ptr > '9')
+            return (-1);
+
+        if (num > 214748364 || (num == 214748364 && (*ptr - '0') > 7))
             return (-1);
 
         num = num * 10 + (*ptr - '0');
