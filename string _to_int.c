@@ -30,17 +30,17 @@ int string_to_int(const char *str, int *result)
     }
 
     if (*ptr == '\0')
-        return -1;
+        return (-1);
 
     while (*ptr)
     {
         if (*ptr < '0' || *ptr > '9')
-            return -1;
+            return (-1);
 
         num = num * 10 + (*ptr - '0');
         ptr++;
     }
 
     *result = num * sign;
-    return 0;
+    return (0);
 }

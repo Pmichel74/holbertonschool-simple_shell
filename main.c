@@ -1,14 +1,13 @@
 #include "main.h"
 
 /**
-* main - Main execution loop for the simple shell program
-* @argc: Argument count (unused)
-* @argv: Argument vector
-* @envp: Array of environment variables
-*
-* Return: Always returns 0 (success)
-*/
-
+ * main - Main execution loop for the simple shell program
+ * @argc: Argument count (unused)
+ * @argv: Argument vector
+ * @envp: Array of environment variables
+ *
+ * Return: Always returns 0 (success)
+ */
 int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 {
     char *line = NULL;
@@ -45,29 +44,16 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
         }
 
         if (strcmp(args[0], "exit") == 0)
-		{
-    		int exit_status = last_status;
-    		if (args[1] != NULL)
-    		{
-        		int parsed_status;
-        		if (string_to_int(args[1], &parsed_status) == 0)
-        		{
-           			exit_status = parsed_status;
-        		}
-        		else
-        		{
-            		exit_status = 2;
-        		}
-    		}
-    		free_args(args);
-    		free(line);
-    		exit(exit_status);
-		}
+        {
+            free_args(args);
+            free(line);
+            exit(last_status);
+        }
 
         last_status = execute_command(args, envp, argv[0]);
         free_args(args);
     }
 
     free(line);
-    return last_status;
+    return (last_status);
 }
