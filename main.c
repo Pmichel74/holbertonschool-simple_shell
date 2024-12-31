@@ -47,7 +47,6 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		{
 			int exit_status = last_status;
 
-<<<<<<< HEAD
             if (args[1] != NULL)
             {
                 int parsed_status;
@@ -61,23 +60,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
                     fprintf(stderr, "%s: exit: Illegal number: %s\n", argv[0], args[1]);
                     exit_status = 2;
                 }
-            }
-=======
-			if (args[1] != NULL)
-			{
-				int parsed_status;
->>>>>>> f0752f7 (sync)
-
-				if (string_to_int(args[1], &parsed_status) == 0)
-				{
-					exit_status = parsed_status;
-				}
-				else
-				{
-					fprintf(stderr, "%s: exit: Illegal number: %s\n", argv[0], args[1]);
-					exit_status = 2;
-				}
-			}
+           	}
 
 			free_args(args);
 			free(line);
