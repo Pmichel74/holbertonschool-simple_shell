@@ -1,39 +1,80 @@
 #include "main.h"
 
 /**
- * custom_strtok - Custom implementation of strtok
- * @str: String to tokenize
- * @delim: Delimiter characters
- *
- * Return: Pointer to next token or NULL
+ * custom_strtok - Split string into tokens
+ * @str: String to be parsed
+ * @delim: String containing delimiter characters
+ * Return: Next token or NULL if no more tokens
  */
 char *custom_strtok(char *str, const char *delim)
 {
-	static char *token;
-	char *token_start;
+    static char *next_token;
+    char *token_start;
+    char *token_end;
 
-	if (str != NULL)
-		token = str;
+    if (!delim)
+        return (NULL);
 
-	if (token == NULL || *token == '\0')
-		return (NULL);
+    if (str)
+        next_token = str;
 
-	while (*token && strchr(delim, *token))
-		token++;
+    if (!next_token)
+        return (NULL);
 
-	if (*token == '\0')
-		return (NULL);
+    while (*next_token)
+    {
+        const char *d = delim;
+        int is_delim = 0;
+        while (*d)
+        {
+            if (*next_token == *d)
+            {
+                is_delim = 1;
+                break;
+            }
+            d++;
+        }
+        if (!is_delim)
+            break;
+        next_token++;
+    }
 
-	token_start = token;
+    if (*next_token == '\0')
+    {
+        next_token = NULL;
+        return (NULL);
+    }
 
-	while (*token && !strchr(delim, *token))
-		token++;
+    token_start = next_token;
+    token_end = token_start;
 
-	if (*token)
-	{
-		*token = '\0';
-		token++;
-	}
+    while (*token_end)
+    {
+        const char *d = delim;
+        int is_delim = 0;
+        while (*d)
+        {
+            if (*token_end == *d)
+            {
+                is_delim = 1;
+                break;
+            }
+            d++;
+        }
+        if (is_delim)
+            break;
+        token_end++;
+    }
 
-	return (token_start);
+    if (*token_end == '\0')
+    {
+        next_token = NULL;
+    }
+    else
+    {
+        *token_end = '\0';
+        next_token = token_end + 1;
+    }
+
+    return (token_start);
 }
