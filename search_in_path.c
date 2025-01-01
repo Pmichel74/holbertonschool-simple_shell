@@ -19,7 +19,7 @@ char *search_in_path(char *command, char *path)
 		return (NULL);
 
 	command_length = strlen(command);
-	path_token = strtok(path_copy, ":");
+	path_token = custom_strtok(path_copy, ":");
 
 	while (path_token != NULL)
 	{
@@ -42,7 +42,7 @@ char *search_in_path(char *command, char *path)
 		}
 
 		free(file_path);
-		path_token = strtok(NULL, ":");
+		path_token = custom_strtok(NULL, ":");
 	}
 
 	free(path_copy);

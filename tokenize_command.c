@@ -25,7 +25,7 @@ char **tokenize_command(char *command)
 		return (NULL);
 	}
 
-	token = strtok(command, " ");
+	token = custom_strtok(command, " ");
 	while (token != NULL && i < MAX_ARGS - 1)
 	{
 		tokens[i] = strdup(token);
@@ -36,7 +36,7 @@ char **tokenize_command(char *command)
 			return (NULL);
 		}
 		i++;
-		token = strtok(NULL, " ");
+		token = custom_strtok(NULL, " ");
 	}
 	tokens[i] = NULL;
 	return (tokens);
