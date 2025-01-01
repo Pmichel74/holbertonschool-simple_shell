@@ -1,43 +1,53 @@
 #include "main.h"
 
 /**
- * tokenize_command - Splits a command string into an array of tokens
- * @command: The input command string to be tokenized
+ * tokenize_command - Split command into tokens
+ * @command: Command string to split
  *
- * This function takes a single command string and breaks it down into
- * individual tokens (words).
- *
- * Return: A pointer to an array of strings containing the tokens,
- *        or NULL if memory allocation fails or the input is invalid
+ * Return: Array of tokens or NULL on failure
  */
 
 char **tokenize_command(char *command)
 {
-	char **tokens;
+	char **tokens = malloc(MAX_ARGS * sizeof(char *));
 	char *token;
 	int i = 0;
-
-	tokens = malloc(MAX_ARGS * sizeof(char *));
+	char *cmd_copy;
 
 	if (!tokens)
+		return (NULL);
+
+	cmd_copy = strdup(command);
+	if (!cmd_copy)
 	{
-		perror("malloc failed");
+		free(tokens);
 		return (NULL);
 	}
 
-	token = custom_strtok(command, " ");
-	while (token != NULL && i < MAX_ARGS - 1)
+	token = custom_strtok(cmd_copy, " \t\n");
+	while (token && i < MAX_ARGS - 1)
 	{
+
+		if (token[0] == '"' && token[strlen(token) - 1] == '"')
+		{
+			token[strlen(token) - 1] = '\0';
+			token++;
+		}
+
 		tokens[i] = strdup(token);
 		if (!tokens[i])
 		{
-			perror("strdup failed");
-			free_string_array(tokens);
+			free(cmd_copy);
+			while (i > 0)
+				free(tokens[--i]);
+			free(tokens);
 			return (NULL);
 		}
 		i++;
-		token = custom_strtok(NULL, " ");
+		token = custom_strtok(NULL, " \t\n");
 	}
 	tokens[i] = NULL;
+
+	free(cmd_copy);
 	return (tokens);
 }
