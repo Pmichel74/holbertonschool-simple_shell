@@ -1,40 +1,39 @@
 #include "main.h"
 
 /**
- * custom_strtok - Split string into tokens without using strtok
+ * custom_strtok - Custom implementation of strtok
  * @str: String to tokenize
- * @delim: Delimiter string
+ * @delim: Delimiter characters
  *
- * Return: Pointer to next token or NULL if none remain
+ * Return: Pointer to next token or NULL
  */
-char *custom_strtok(char *str, char *delim)
+char *custom_strtok(char *str, const char *delim)
 {
-	static char *last;
-	char *start;
+	static char *token;
+	char *token_start;
 
-	if (str)
-		last = str;
-	else if (!last)
+	if (str != NULL)
+		token = str;
+
+	if (token == NULL || *token == '\0')
 		return (NULL);
 
-	while (*last && strchr(delim, *last))
-		last++;
+	while (*token && strchr(delim, *token))
+		token++;
 
-	if (*last == '\0')
+	if (*token == '\0')
 		return (NULL);
 
-	start = last;
+	token_start = token;
 
-	while (*last && !strchr(delim, *last))
-		last++;
+	while (*token && !strchr(delim, *token))
+		token++;
 
-	if (*last)
+	if (*token)
 	{
-		*last = '\0';
-		last++;
+		*token = '\0';
+		token++;
 	}
-	else
-		last = NULL;
 
-	return (start);
+	return (token_start);
 }
