@@ -18,6 +18,8 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	int exit_status;
 	int last_status = 0;
 
+	signal(SIGINT, sigint_handler);
+
 	while (1)
 	{
 		if (interactive)
