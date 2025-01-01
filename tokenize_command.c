@@ -27,7 +27,6 @@ char **tokenize_command(char *command)
 	token = custom_strtok(cmd_copy, " \t\n");
 	while (token && i < MAX_ARGS - 1)
 	{
-
 		if (token[0] == '"' && token[strlen(token) - 1] == '"')
 		{
 			token[strlen(token) - 1] = '\0';

@@ -39,7 +39,7 @@ char *custom_strtok(char *str, const char *delim);
 
 void sigint_handler(int sig __attribute__((unused)));
 
-int _setenv(const char *name, const char *value, char **envp);
-int _unsetenv(const char *name, char **envp);
+int _setenv(char **args, char **envp, char *program_name);
+int _unsetenv(char **args, char **envp, char *program_name);
 
 #endif
