@@ -6,5 +6,5 @@
  */
 void sigint_handler(int sig __attribute__((unused)))
 {
-	write(STDOUT_FILENO, "\n$ ", 3);
+	write(STDOUT_FILENO, "\n", 3);
 }
