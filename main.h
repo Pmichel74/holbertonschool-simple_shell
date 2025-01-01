@@ -22,16 +22,12 @@ char **envp, char *program_name);
 int execute_command(char **args, char **envp, char *program_name);
 
 char **tokenize_command(char *command);
-void free_tokens(char **tokens);
+void free_string_array(char **array);
 
 char *find_path(char *envp[]);
 char *check_absolute_path(char *command);
 char *search_in_path(char *command, char *path);
 char *find_command(char *command, char *envp[]);
-
-void free_args(char **args);
-int lsh_exit(char **args);
-
 
 void print_env(char *envp[]);
 int string_to_int(const char *str, int *result);

@@ -40,7 +40,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		args = tokenize_command(line);
 		if (!args || args[0] == NULL)
 		{
-			free_args(args);
+			free_string_array(args);
 			continue;
 		}
 
@@ -48,13 +48,13 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		{
     		exit_status = exit_command(args, argv[0], last_status);
 
-    		free_args(args);
+    		free_string_array(args);
     		free(line);
     		exit(exit_status);
 		}
 
 		last_status = execute_command(args, envp, argv[0]);
-		free_args(args);
+		free_string_array(args);
 	}
 
 	free(line);

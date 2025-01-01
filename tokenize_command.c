@@ -32,7 +32,7 @@ char **tokenize_command(char *command)
 		if (!tokens[i])
 		{
 			perror("strdup failed");
-			free_tokens(tokens);
+			free_string_array(tokens);
 			return (NULL);
 		}
 		i++;
