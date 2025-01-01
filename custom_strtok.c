@@ -1,80 +1,59 @@
 #include "main.h"
 
 /**
- * custom_strtok - Split string into tokens
- * @str: String to be parsed
- * @delim: String containing delimiter characters
- * Return: Next token or NULL if no more tokens
+ * is_delim - check if a character is a delimiter
+ * @c: character to check
+ * @delim: string of delimiters
+ * Return: 1 if delimiter, 0 if not
+ */
+static int is_delim(char c, const char *delim)
+{
+	while (*delim)
+	{
+		if (c == *delim)
+			return (1);
+		delim++;
+	}
+	return (0);
+}
+
+/**
+ * custom_strtok - tokenize a string
+ * @str: string to tokenize
+ * @delim: delimiter characters
+ * Return: pointer to next token or NULL
  */
 char *custom_strtok(char *str, const char *delim)
 {
-    static char *next_token;
-    char *token_start;
-    char *token_end;
+	static char *saved_ptr;
+	char *start;
 
-    if (!delim)
-        return (NULL);
+	if (str != NULL)
+		saved_ptr = str;
+	else if (saved_ptr == NULL)
+		return (NULL);
 
-    if (str)
-        next_token = str;
+	while (*saved_ptr && is_delim(*saved_ptr, delim))
+		saved_ptr++;
 
-    if (!next_token)
-        return (NULL);
+	if (*saved_ptr == '\0')
+	{
+		saved_ptr = NULL;
+		return (NULL);
+	}
 
-    while (*next_token)
-    {
-        const char *d = delim;
-        int is_delim = 0;
-        while (*d)
-        {
-            if (*next_token == *d)
-            {
-                is_delim = 1;
-                break;
-            }
-            d++;
-        }
-        if (!is_delim)
-            break;
-        next_token++;
-    }
+	start = saved_ptr;
 
-    if (*next_token == '\0')
-    {
-        next_token = NULL;
-        return (NULL);
-    }
+	while (*saved_ptr && !is_delim(*saved_ptr, delim))
+		saved_ptr++;
 
-    token_start = next_token;
-    token_end = token_start;
+	if (*saved_ptr)
+	{
+		*saved_ptr = '\0';
+		saved_ptr++;
+	}
+	else
+		saved_ptr = NULL;
 
-    while (*token_end)
-    {
-        const char *d = delim;
-        int is_delim = 0;
-        while (*d)
-        {
-            if (*token_end == *d)
-            {
-                is_delim = 1;
-                break;
-            }
-            d++;
-        }
-        if (is_delim)
-            break;
-        token_end++;
-    }
-
-    if (*token_end == '\0')
-    {
-        next_token = NULL;
-    }
-    else
-    {
-        *token_end = '\0';
-        next_token = token_end + 1;
-    }
-
-    return (token_start);
+	return (start);
 }
