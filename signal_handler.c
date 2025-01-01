@@ -2,12 +2,9 @@
 
 /**
  * sigint_handler - Signal handler for SIGINT (Ctrl+C)
- * @sig: Signal number
+ * @sig: Signal number (unused)
  */
-void sigint_handler(int sig)
+void sigint_handler(int sig __attribute__((unused)))
 {
-	(void)sig;
-
 	write(STDOUT_FILENO, "\n$ ", 3);
 }
-
