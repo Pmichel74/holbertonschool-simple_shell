@@ -14,7 +14,7 @@ char *find_path(char *envp[])
 	for (i = 0; envp[i] != NULL; i++)
 	{
 		if (strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5); /*Retourne la valeur après "PATH="*/
+			return (envp[i] + 5);
 	}
 	return (NULL);
 }
