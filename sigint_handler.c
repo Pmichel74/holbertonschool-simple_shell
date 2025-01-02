@@ -6,7 +6,5 @@
  */
 void sigint_handler(int sig __attribute__((unused)))
 {
-	signal(SIGINT, handle_sigint);
 	write(STDOUT_FILENO, "\n$ ", 3);
-	fflush(stdout);
 }
