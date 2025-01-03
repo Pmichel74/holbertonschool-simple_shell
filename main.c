@@ -18,16 +18,20 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 	int exit_status;
 	int last_status = 0;
 
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
 
 	while (1)
 	{
 		if (interactive)
+		{
 			write(STDOUT_FILENO, "$ ", 2);
-
+			fflush(stdout);
+		}
 		nread = custom_getline(&line, &len, stdin);
 		if (nread == -1)
 		{
+			if (errno == EINTR)
+				continue;
 			if (interactive)
 				write(STDOUT_FILENO, "\n", 1);
 			break;
@@ -48,11 +52,11 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 
 		if (strcmp(args[0], "exit") == 0)
 		{
-    		exit_status = exit_command(args, argv[0], last_status);
+			exit_status = exit_command(args, argv[0], last_status);
 
-    		free_string_array(args);
-    		free(line);
-    		exit(exit_status);
+			free_string_array(args);
+			free(line);
+			exit(exit_status);
 		}
 
 		last_status = execute_command(args, envp, argv[0]);
