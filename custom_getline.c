@@ -134,7 +134,7 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
         buffer_pos = 0;
     }
 
-    /* Handle end of input
+    /* Handle end of input*/
     if (line_pos == 0)
     {
         free(line_buffer);
