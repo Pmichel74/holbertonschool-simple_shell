@@ -25,13 +25,10 @@ int main(int argc __attribute__((unused)), char *argv[], char *envp[])
 		if (interactive)
 		{
 			write(STDOUT_FILENO, "$ ", 2);
-			fflush(stdout);
 		}
 		nread = custom_getline(&line, &len, stdin);
 		if (nread == -1)
 		{
-			if (errno == EINTR)
-				continue;
 			if (interactive)
 				write(STDOUT_FILENO, "\n", 1);
 			break;
