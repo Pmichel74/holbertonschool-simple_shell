@@ -6,9 +6,9 @@
  *
  * Return: void
  */
+
 void sigint_handler(int sig_num)
 {
 	(void)sig_num;
 	write(STDOUT_FILENO, "\n$ ", 3);
-	fflush(stdout);
 }

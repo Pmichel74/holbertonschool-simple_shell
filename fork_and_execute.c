@@ -30,7 +30,7 @@ char **envp, char *program_name)
 	}
 	else if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		/*signal(SIGINT, SIG_DFL);*/
 		if (execve(command_path, args, envp) == -1)
 		{
 			perror("Error: execve failed");
