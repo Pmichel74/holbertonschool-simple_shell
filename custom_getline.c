@@ -113,7 +113,7 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
         while (buffer_pos < (size_t)chars_in_buffer)
         {
             line_buffer[line_pos++] = read_buffer[buffer_pos++];
-            
+
             /* Check for newline */
             if (line_buffer[line_pos - 1] == '\n')
             {
