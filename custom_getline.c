@@ -22,8 +22,10 @@ unsigned int new_size)
     if (ptr == NULL)
     {
         mem = malloc(new_size);
-        if (mem == NULL)
+        if (mem == NULL) {
+            perror("malloc"); /* // Ajouté perror */
             return (NULL);
+        }
         return (mem);
     }
 
@@ -37,6 +39,7 @@ unsigned int new_size)
     mem = malloc(new_size);
     if (mem == NULL)
     {
+        perror("malloc"); /* // Ajouté perror */
         free(ptr);
         return (NULL);
     }
@@ -92,13 +95,15 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
         return (-1);
 
     line_buffer = malloc(READ_SIZE);
-    if (!line_buffer)
+    if (!line_buffer) {
+        perror("malloc"); /* // Ajouté perror */
         return (-1);
+    }
 
     if (buffer_pos >= (size_t)chars_in_buffer)
     {
         fflush(stream);
-        chars_in_buffer = read(STDIN_FILENO, read_buffer, READ_SIZE);
+        chars_in_buffer = read(fileno(stream), read_buffer, READ_SIZE); /* // Correction : fileno(stream) */
         if (chars_in_buffer <= 0)
         {
             free(line_buffer);
@@ -123,14 +128,23 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
             }
 
             /* Reallocate if needed */
-            if (line_pos >= READ_SIZE)
+            if (line_pos >= READ_SIZE) {
                 line_buffer = copy_and_reallocate(line_buffer, line_pos, line_pos + READ_SIZE);
+                if (line_buffer == NULL) { /* // Vérification après réallocation */
+                    perror("realloc"); /* // Ajouté perror */
+                    return -1;
+                }
+            }
         }
 
         /* Read more data if needed */
-        chars_in_buffer = read(STDIN_FILENO, read_buffer, READ_SIZE);
-        if (chars_in_buffer <= 0)
+        chars_in_buffer = read(fileno(stream), read_buffer, READ_SIZE); /* // Correction : fileno(stream) */
+        if (chars_in_buffer <= 0) {
+            if (chars_in_buffer < 0) {
+                perror("read"); /* // Ajouté perror */
+            }
             break;
+        }
         buffer_pos = 0;
     }
 
