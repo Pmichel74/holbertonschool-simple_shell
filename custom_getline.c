@@ -132,7 +132,7 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
                 line_buffer = copy_and_reallocate(line_buffer, line_pos, line_pos + READ_SIZE);
                 if (line_buffer == NULL) { /* // Vérification après réallocation */
                     perror("realloc"); /* // Ajouté perror */
-                    return (-1);
+                    return -1;
                 }
             }
         }

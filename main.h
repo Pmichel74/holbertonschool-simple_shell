@@ -12,7 +12,6 @@
 
 #define MAX_ARGS 64
 
-
 int main(int argc, char *argv[], char *envp[]);
 
 char *read_command(void);
