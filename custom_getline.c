@@ -10,36 +10,43 @@
 static void *copy_and_reallocate(void *ptr, unsigned int old_size,
 unsigned int new_size)
 {
-	void *new_mem;
+	void *mem;
 	char *ptr_copy, *filler;
-	unsigned int i;
+	unsigned int index;
 
 	if (new_size == old_size)
 		return (ptr);
 
 	if (ptr == NULL)
-		return (malloc(new_size));
+	{
+		mem = malloc(new_size);
+		if (mem == NULL)
+			return (NULL);
 
-	if (new_size == 0)
+		return (mem);
+	}
+
+	if (new_size == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
 
 	ptr_copy = ptr;
-	new_mem = malloc(new_size);
-	if (new_mem == NULL)
+	mem = malloc(sizeof(*ptr_copy) * new_size);
+	if (mem == NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
 
-	filler = new_mem;
-	for (i = 0; i < old_size && i < new_size; i++)
-		filler[i] = ptr_copy[i];
+	filler = mem;
+
+	for (index = 0; index < old_size && index < new_size; index++)
+		filler[index] = *ptr_copy++;
 
 	free(ptr);
-	return (new_mem);
+	return (mem);
 }
 
 /**
@@ -94,7 +101,7 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 		return (-1);
 
 	input = 0;
-	buffer = malloc(120);
+	buffer = malloc(sizeof(*buffer) * 120);
 	if (!buffer)
 		return (-1);
 
