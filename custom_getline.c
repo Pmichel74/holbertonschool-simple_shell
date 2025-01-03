@@ -1,147 +1,74 @@
 #include "main.h"
 
-#define READ_SIZE 1024
+#define BUFFER_SIZE 1024
 
 /**
- * copy_and_reallocate - Reallocates memory for buffer
- * @ptr: Original buffer
- * @old_size: Old size
- * @new_size: New size
- * Return: Pointer to new buffer
- */
-static void *copy_and_reallocate(void *ptr, unsigned int old_size,
-unsigned int new_size)
-{
-    void *mem;
-    char *ptr_copy, *filler;
-    unsigned int index;
-
-    if (new_size == old_size)
-        return (ptr);
-
-    if (ptr == NULL)
-    {
-        mem = malloc(new_size);
-        if (mem == NULL)
-            return (NULL);
-        return (mem);
-    }
-
-    if (new_size == 0 && ptr != NULL)
-    {
-        free(ptr);
-        return (NULL);
-    }
-
-    ptr_copy = ptr;
-    mem = malloc(new_size);
-    if (mem == NULL)
-    {
-        free(ptr);
-        return (NULL);
-    }
-
-    filler = mem;
-    for (index = 0; index < old_size && index < new_size; index++)
-        filler[index] = ptr_copy[index];
-
-    free(ptr);
-    return (mem);
-}
-
-/**
- * assign_line - Assigns buffer to lineptr
- * @lineptr: Buffer to store input
- * @n: Size of lineptr
- * @buffer: String to assign
- * @b: Size of buffer
- */
-static void assign_line(char **lineptr, size_t *n, char *buffer, size_t b)
-{
-    if (*lineptr == NULL || *n < b)
-    {
-        if (b > READ_SIZE)
-            *n = b;
-        else
-            *n = READ_SIZE;
-        *lineptr = buffer;
-    }
-    else
-    {
-        strcpy(*lineptr, buffer);
-        free(buffer);
-    }
-}
-
-/**
- * custom_getline - Read input from stream
- * @lineptr: Buffer to store input
- * @n: Size of buffer
- * @stream: Stream to read from
- * Return: Number of bytes read
+ * custom_getline - Custom implementation of getline
+ * @lineptr: Pointer to buffer where the line will be stored
+ * @n: Pointer to size of allocated buffer
+ * @stream: File stream to read from (unused in this implementation)
+ * Return: Number of characters read, -1 on failure or EOF
  */
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 {
-    static char read_buffer[READ_SIZE];
-    static size_t buffer_pos;
-    static ssize_t chars_in_buffer;
-    char *line_buffer;
-    size_t line_pos = 0;
+    static char buffer[BUFFER_SIZE];
+    static size_t buf_pos;
+    static ssize_t buf_size;
+    size_t pos = 0;
+    char *new_ptr;
+    (void)stream;
 
     if (!lineptr || !n)
         return (-1);
 
-    line_buffer = malloc(READ_SIZE);
-    if (!line_buffer)
-        return (-1);
-
-    if (buffer_pos >= (size_t)chars_in_buffer)
+    /* Initial allocation if needed */
+    if (*lineptr == NULL)
     {
-        fflush(stream);
-        chars_in_buffer = read(STDIN_FILENO, read_buffer, READ_SIZE);
-        if (chars_in_buffer <= 0)
-        {
-            free(line_buffer);
+        *lineptr = malloc(BUFFER_SIZE);
+        if (!*lineptr)
             return (-1);
-        }
-        buffer_pos = 0;
+        *n = BUFFER_SIZE;
     }
 
     while (1)
     {
-        /* Copy characters until newline or buffer is full */
-        while (buffer_pos < (size_t)chars_in_buffer)
+        /* Read more data if buffer is empty */
+        if (buf_pos >= (size_t)buf_size)
         {
-            line_buffer[line_pos++] = read_buffer[buffer_pos++];
-
-            /* Check for newline */
-            if (line_buffer[line_pos - 1] == '\n')
+            buf_size = read(STDIN_FILENO, buffer, BUFFER_SIZE);
+            if (buf_size <= 0)
             {
-                line_buffer[line_pos] = '\0';
-                assign_line(lineptr, n, line_buffer, line_pos + 1);
-                return (line_pos);
+                if (pos == 0)
+                    return (-1);
+                break;
             }
-
-            /* Reallocate if needed */
-            if (line_pos >= READ_SIZE)
-                line_buffer = copy_and_reallocate(line_buffer, line_pos, line_pos + READ_SIZE);
+            buf_pos = 0;
         }
 
-        /* Read more data if needed */
-        chars_in_buffer = read(STDIN_FILENO, read_buffer, READ_SIZE);
-        if (chars_in_buffer <= 0)
+        /* Reallocate if needed */
+        if (pos >= *n - 1)
+        {
+            new_ptr = malloc(*n * 2);
+            if (!new_ptr)
+                return (-1);
+            memcpy(new_ptr, *lineptr, pos);
+            free(*lineptr);
+            *lineptr = new_ptr;
+            *n *= 2;
+        }
+
+        /* Copy and check for newline */
+        (*lineptr)[pos] = buffer[buf_pos];
+        if (buffer[buf_pos] == '\n')
+        {
+            pos++;
+            buf_pos++;
             break;
-        buffer_pos = 0;
+        }
+        pos++;
+        buf_pos++;
     }
 
-    /* Handle end of input */
-    if (line_pos == 0)
-    {
-        free(line_buffer);
-        return (-1);
-    }
-
-    line_buffer[line_pos] = '\0';
-    assign_line(lineptr, n, line_buffer, line_pos + 1);
-    return (line_pos);
+    (*lineptr)[pos] = '\0';
+    return (pos);
 }
