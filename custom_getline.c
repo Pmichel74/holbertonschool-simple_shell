@@ -63,15 +63,12 @@ static void assign_line(char **lineptr, size_t *n, char *buffer, size_t b)
 {
     if (*lineptr == NULL || *n < b)
     {
-        if (b > READ_SIZE)
-            *n = b;
-        else
-            *n = READ_SIZE;
+        *n = b > READ_SIZE ? b : READ_SIZE;
         *lineptr = buffer;
     }
     else
     {
-        strcpy(*lineptr, buffer);
+        memcpy(*lineptr, buffer, b);
         free(buffer);
     }
 }
@@ -95,10 +92,16 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
         return (-1);
 
     line_buffer = malloc(READ_SIZE);
-    if (!line_buffer) {
-        perror("malloc"); /* // Ajouté perror */
-        return (-1);
+    if (line_pos >= *n)
+{
+    *n = line_pos + READ_SIZE;
+    *lineptr = realloc(*lineptr, *n);
+    if (*lineptr == NULL)
+    {
+        perror("realloc");
+        return -1;
     }
+}
 
     if (buffer_pos >= (size_t)chars_in_buffer)
     {
