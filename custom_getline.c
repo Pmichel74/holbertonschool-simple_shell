@@ -143,5 +143,5 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 
     line_buffer[line_pos] = '\0';
     assign_line(lineptr, n, line_buffer, line_pos + 1);
-    return (line_pos);*/
+    return (line_pos);
 }
