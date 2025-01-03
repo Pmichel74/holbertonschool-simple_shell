@@ -37,7 +37,7 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 
 char *custom_strtok(char *str, const char *delim);
 
-/*void sigint_handler(int sig __attribute__((unused)));*/
+void sigint_handler(int sig_num);
 
 int _setenv(char **args, char **envp, char *program_name);
 int _unsetenv(char **args, char **envp, char *program_name);
