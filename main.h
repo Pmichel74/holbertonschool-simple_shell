@@ -12,9 +12,6 @@
 
 #define MAX_ARGS 64
 
-int token_len(char *str, char *delim);
-int count_tokens(char *str, char *delim);
-char **custom_strtok(char *line, char *delim);
 
 int main(int argc, char *argv[], char *envp[]);
 
@@ -39,7 +36,7 @@ int exit_command(char **args, char *program_name, int last_status);
 
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 
-/*char *custom_strtok(char *str, const char *delim);*/
+char *custom_strtok(char *str, const char *delim);
 
 void sigint_handler(int sig_num);
 
