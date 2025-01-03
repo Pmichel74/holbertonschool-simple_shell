@@ -7,21 +7,21 @@
  */
 static char *remove_quotes(char *str)
 {
-	int len = strlen(str);
-	char *new_str = malloc(len + 1);
-	int i, j = 0;
+    int len = strlen(str);
+    char *new_str = malloc(len + 1);
+    int i, j = 0;
 
-	if (!new_str)
-		return (NULL);
+    if (!new_str)
+        return (NULL);
 
-	for (i = 0; str[i]; i++)
-	{
-		if (str[i] != '"' && str[i] != '\\')
-			new_str[j++] = str[i];
-	}
-	new_str[j] = '\0';
+    for (i = 0; str[i]; i++)
+    {
+        if (str[i] != '"' && str[i] != '\\')
+            new_str[j++] = str[i];
+    }
+    new_str[j] = '\0';
 
-	return (new_str);
+    return (new_str);
 }
 
 /**
@@ -32,30 +32,52 @@ static char *remove_quotes(char *str)
  */
 char **tokenize_command(char *command)
 {
-	char **tokens = malloc(MAX_ARGS * sizeof(char *));
-	char *token;
-	int i = 0;
-	char *processed;
+    char **raw_tokens;
+    char **processed_tokens;
+    int i, j;
+    int token_count = 0;
 
-	if (!tokens)
-		return (NULL);
+    if (!command)
+        return (NULL);
 
-	token = custom_strtok(command, " \t\n");
-	while (token && i < MAX_ARGS - 1)
-	{
-		processed = remove_quotes(token);
-		if (!processed)
-		{
-			while (--i >= 0)
-				free(tokens[i]);
-			free(tokens);
-			return (NULL);
-		}
-		tokens[i] = processed;
-		i++;
-		token = custom_strtok(NULL, " \t\n");
-	}
-	tokens[i] = NULL;
+    raw_tokens = custom_strtok(command, " \t\n");
+    if (!raw_tokens)
+        return (NULL);
 
-	return (tokens);
+    /* // Count tokens */
+    while (raw_tokens[token_count])
+        token_count++;
+
+    processed_tokens = malloc((token_count + 1) * sizeof(char *));
+    if (!processed_tokens)
+    {
+        for (i = 0; raw_tokens[i]; i++)
+            free(raw_tokens[i]);
+        free(raw_tokens);
+        return (NULL);
+    }
+
+    for (i = 0, j = 0; i < token_count && j < MAX_ARGS - 1; i++)
+    {
+        processed_tokens[j] = remove_quotes(raw_tokens[i]);
+        if (!processed_tokens[j])
+        {
+            while (--j >= 0)
+                free(processed_tokens[j]);
+            free(processed_tokens);
+            for (i = 0; raw_tokens[i]; i++)
+                free(raw_tokens[i]);
+            free(raw_tokens);
+            return (NULL);
+        }
+        j++;
+    }
+    processed_tokens[j] = NULL;
+
+    /* // Free raw_tokens */
+    for (i = 0; raw_tokens[i]; i++)
+        free(raw_tokens[i]);
+    free(raw_tokens);
+
+    return processed_tokens;
 }
