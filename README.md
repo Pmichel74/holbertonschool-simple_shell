@@ -92,7 +92,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 ### Testing
 
-![image](img/testing.jpg)
+![image](img/_testing.jpg)
 
 ### Flowchart
 
