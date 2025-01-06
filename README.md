@@ -4,31 +4,25 @@
 Release date December January 10, 2025
 </p>
 
-## Table of Contents
-
-- [Table of Contents](#table-of-contents)
-- [Introduction](#introduction)
-	- [What is Shell](#what-is-shell)
-	- [Holberton School project](#holberton-school-project)
-	- [Tasks](#tasks)
-	- [Files](#files)
-	- [General requirements](#general-requirements)
-	- [Allowed functions](#allowed-functions)
-	- [Installation](#installation)
-	- [Man page](#man-page)
-	- [Testing](#testing)
-	- [Flowchart](#flowchart)
+- [What is Shell](#what-is-shell)
+- [Holberton School project](#holberton-school-project)
+- [Tasks](#tasks)
+- [Files](#files)
+- [General requirements](#general-requirements)
+- [Allowed functions](#allowed-functions)
+- [Installation](#installation)
+- [Man page](#man-page)
+- [Testing](#testing)
+- [Flowchart](#flowchart)
 - [Authors](#authors)
 
-## Introduction
-
-### What is Shell
+## What is Shell
 A shell is a command-line interface that acts as an intermediary between the user and the operating system kernel. It interprets user commands, either interactively (typed directly into the terminal) or non-interactively (read from a script), and translates them into system calls that the operating system can understand and execute.
 
-### Holberton School project
+## Holberton School project
 A lightweight UNIX command interpreter that executes commands from standard input. Built in C as part of the Holberton School curriculum, this shell implements core features like command execution with arguments, environment variable handling, and essential built-in commands.
 
-### Tasks
+## Tasks
 
 *  README, man, AUTHORS.
 *  Write a beautiful code that passes the Betty checks.
@@ -38,7 +32,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 *  Implement the exit built-in, that exits the shell.
 *  Implement the env built-in, that prints the current environment.
 
-### Files
+## Files
 
 |File|Description|
 |---|---|
@@ -46,7 +40,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 |[README.md](https://github.com/Pmichel74holbertonschool-simple_shell/blob/main/README.md)|Information about our repository|
 |[man_1_simple_shell](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/man_1_simple_shell)|Shell man page|
 |[check_absolute_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/check_absolute_path.c )|Checks if a path is absolute|
-|[custom_getline.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/main/custom_getline.c)|custom getline for input reading|
+|[custom_getline.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/main/custom_getline.c)|Custom getline for input reading|
 |[custom_realloc.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/main/custom_realloc.c)|Custom implementation of realloc function for memory management|
 |[custom_strtok.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/custom_strtok.c)|Custom implementation of strtok function for string parsing|
 |[env_builtins.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/env_builtins.c)|Handles built-in environment commands (env, setenv, unsetenv)|
@@ -67,11 +61,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 |[test_ls_2](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/test_ls_2)|Additional test file|
 |[tokenize_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/tokenize_command.c)|Splits command into tokens|
 
-
-
-
-
-### General requirements
+## General requirements
  * Allowed editors: vi, vim, emacs
  * All your files will be compiled on `Ubuntu 20.04 LTS`
  * Your C programs and functions will be compiled with `gcc` using the flags `-Wall` `-Werror` `-Wextra` and `-pedantic`
@@ -81,7 +71,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
  * This shell should not have any memory leaks
  * Unless specified otherwise, your program must have the exact same output as `sh` (`/bin/sh`) as well as the exact same error output.
 
-### Allowed functions
+## Allowed functions
 
 | System Calls | Library Functions | Process Functions |
 |-------------|-------------------|-------------------|
@@ -101,7 +91,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 | • `strlen` | • `strcpy` | • `strncmp` |
 | • `strncpy` | • `strstr` | • `strncat` |
 
-### Installation
+## Installation
 
 - Clone this repository: `git clone "https://github.com/Pmichel74/holbertonschool-simple_shell"`
 - Change directories into the repository: `cd simple_shell`
@@ -109,14 +99,14 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 - Run the shell in interactive mode: `./hsh`
 - Or run the shell in non-interactive mode: example `echo "Hello world!" | ./hsh`
 
-### Man page
+## Man page
 
 
-### Testing
+## Testing
 
 ![image](img/_testing.jpg)
 
-### Flowchart
+## Flowchart
 
 ![image](img/flowchart.jpg)
 
