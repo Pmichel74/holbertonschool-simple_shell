@@ -1,4 +1,4 @@
-![image](img/shell.png)
+![image](img/Shell.jpg)
 <h1>Simple Shell</h1>
 
 ## Introduction
