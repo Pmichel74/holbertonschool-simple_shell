@@ -1,7 +1,7 @@
 <p align="center">
 <img src="img/Shell.jpg">
 <h1>Simple Shell</h1>
-Release date December January 10, 2025
+Release date January 10, 2025
 </p>
 
 - [What is Shell](#what-is-shell)
