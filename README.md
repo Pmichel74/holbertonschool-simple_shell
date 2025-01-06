@@ -99,4 +99,8 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 ![image](img/flowchart.jpg)
 
+## Authors
+
+<li> Patrick MICHEL - <a href="https://github.com/Pmichel74">MICHEL</a></li>
+<li> Benjamin RISTORD - <a href="https://github.com/jbn179">RISTORD</a></li>
 
