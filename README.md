@@ -1,5 +1,6 @@
-![image](img/Shell.jpg)
-<h1>Simple Shell</h1>
+<p align="center">
+<img src="img/Shell.jpg">
+</p>
 
 ## Introduction
 
