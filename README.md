@@ -45,7 +45,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 |[print_env.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/print_env.c)|Displays environment variables|
 |[search_in_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/search_in_path.c)|Searches commands in PATH directories|
 |[sigint_handler.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/sigint_handler.c)|Handles SIGINT signal (Ctrl+C) interruption|
-|[string_to_int.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/string_to_int.cll.h)|Converts string to integer|
+|[string_to_int.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/string_to_int.c)|Converts string to integer|
 |[test_ls_2](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/test_ls_2)|Additional test file|
 |[tokenize_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/tokenize_command.c)|Splits command into tokens|
 
