@@ -25,21 +25,28 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 |---|---|
 |[AUTHORS](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/AUTHORS)|Contributors in this repository|
 |[README.md](https://github.com/Pmichel74holbertonschool-simple_shell/blob/README.md)|Information about our repository|
-|[check_absolute_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/check_absolute_path.c )|Execute builtins and commands|
-|[custom_getline.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/custom_getline.c)|Get variable PATH|
-|[custom_realloc.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/master/custom_realloc.c)|Prints enviroment to stndard output|
-|[custom_strtok.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/custom_strtok.c)|Gets input|
-|[env_builtins.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/env_builtins.c)|Main arguments functions||[hsh_string_foos.c](https://github.com/Pmichel74/holbertonschool-/blob/master/hsh_string_foos.c)|Function to work and modifie string|
-|[execute_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/master/blob/master/execute_command.c)|Tokenizes a stirng|
-|[find_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_command.c)|Manual page our of Simple Shell|
-|[find_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_path.c)|Prototypes functions and headers|
-|[fork_and_execute.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/fork_and_execute.c)|Prototypes functions and headers|
-|[free_string_array.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_string_array.c)|Prototypes functions and headers|
-|[main.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/main.c)|Prototypes functions and headers|
-|[print_env.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/print_env.c)|Prototypes functions and headers|
-|[search_in_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/search_in_path.c)|Prototypes functions and headers|
-|[sigint_handler.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/sigint_handler.c)|Prototypes functions and headers|
-|[string_to_int.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/string_to_int.cll.h)|Prototypes functions and headers|
+|[man_1_simple_shell](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/man_1_simple_shell)|Shell man page|
+|[check_absolute_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/check_absolute_path.c )|Checks if a path is absolute|
+|[custom_getline.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/master/custom_getline.c)|custom getline for input reading|
+|[custom_realloc.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/master/custom_realloc.c)|Custom implementation of realloc function for memory management|
+|[custom_strtok.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/custom_strtok.c)|Custom implementation of strtok function for string parsing|
+|[env_builtins.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/env_builtins.c)|Handles built-in environment commands (env, setenv, unsetenv)|
+|[execute_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/execute_command.c)|Handles shell command execution|
+|[find_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_command.c)|Searches for commands in PATH|
+|[find_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_path.c)|Handles PATH and executable search|
+|[fork_and_execute.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/fork_and_execute.c)|Manages process creation and execution|
+|[free_args.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_args.c)|Frees argument memory|
+|[free_tokens.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_tokens.c)|Frees token memory|
+|[hsh](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/hsh)|Shell executable|
+|[free_string_array.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_string_array.c)|Frees memory allocated for array of strings|
+|[main.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/main.c)|Program entry point|
+|[main.h](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/main.h)|Header file with prototypes and structures |
+|[print_env.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/print_env.c)|Displays environment variables|
+|[search_in_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/search_in_path.c)|Searches commands in PATH directories|
+|[sigint_handler.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/sigint_handler.c)|Handles SIGINT signal (Ctrl+C) interruption|
+|[string_to_int.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/string_to_int.cll.h)|Converts string to integer|
+|[test_ls_2](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/test_ls_2)|Additional test file|
+|[tokenize_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/tokenize_command.c)|Splits command into tokens|
 
 
 
@@ -74,5 +81,21 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 | • `stat` | • `strcat` | • `strcmp` |
 | • `strlen` | • `strcpy` | • `strncmp` |
 | • `strncpy` | • `strstr` | • `strncat` |
+
+### Installation
+
+- Clone this repository: `git clone "https://github.com/Pmichel74/holbertonschool-simple_shell"`
+- Change directories into the repository: `cd simple_shell`
+- Compile: `gcc -Wall -Werror -Wextra -pedantic *.c -o hsh`
+- Run the shell in interactive mode: `./hsh`
+- Or run the shell in non-interactive mode: example `echo "Hello world!" | ./hsh`
+
+### Testing
+
+![image](img/testing.jpg)
+
+### Flowchart
+
+![image](img/flowchart.jpg)
 
 
