@@ -1,6 +1,24 @@
 <p align="center">
 <img src="img/Shell.jpg">
+<h1>Simple Shell</h1>
+Release date December January 10, 2025
 </p>
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+	- [What is Shell](#what-is-shell)
+	- [Holberton School project](#holberton-school-project)
+	- [Tasks](#tasks)
+	- [Files](#files)
+	- [General requirements](#general-requirements)
+	- [Allowed functions](#allowed-functions)
+	- [Installation](#installation)
+	- [Man page](#man-page)
+	- [Testing](#testing)
+	- [Flowchart](#flowchart)
+- [Authors](#authors)
 
 ## Introduction
 
@@ -63,7 +81,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
  * This shell should not have any memory leaks
  * Unless specified otherwise, your program must have the exact same output as `sh` (`/bin/sh`) as well as the exact same error output.
 
-### Allowed functions used
+### Allowed functions
 
 | System Calls | Library Functions | Process Functions |
 |-------------|-------------------|-------------------|
@@ -91,6 +109,9 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 - Run the shell in interactive mode: `./hsh`
 - Or run the shell in non-interactive mode: example `echo "Hello world!" | ./hsh`
 
+### Man page
+
+
 ### Testing
 
 ![image](img/_testing.jpg)
@@ -101,6 +122,6 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 ## Authors
 
-<li> Patrick MICHEL - <a href="https://github.com/Pmichel74">MICHEL</a></li>
-<li> Benjamin RISTORD - <a href="https://github.com/jbn179">RISTORD</a></li>
+<li> Patrick MICHEL - <a href="https://github.com/Pmichel74">@Pmichel74</a></li>
+<li> Benjamin RISTORD - <a href="https://github.com/jbn179">@jbn179</a></li>
 
