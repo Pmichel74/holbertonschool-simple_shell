@@ -24,8 +24,8 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 |File|Description|
 |---|---|
-|[AUTHORS](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/AUTHORS)|Contributors in this repository|
-|[README.md](https://github.com/Pmichel74holbertonschool-simple_shell/blob/README.md)|Information about our repository|
+|[AUTHORS](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/AUTHORS)|Contributors in this repository|
+|[README.md](https://github.com/Pmichel74holbertonschool-simple_shell/blob/master/README.md)|Information about our repository|
 |[man_1_simple_shell](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/man_1_simple_shell)|Shell man page|
 |[check_absolute_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/check_absolute_path.c )|Checks if a path is absolute|
 |[custom_getline.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/master/custom_getline.c)|custom getline for input reading|
