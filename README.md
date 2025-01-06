@@ -24,30 +24,30 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 |File|Description|
 |---|---|
-|[AUTHORS](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/AUTHORS)|Contributors in this repository|
-|[README.md](https://github.com/Pmichel74holbertonschool-simple_shell/blob/master/README.md)|Information about our repository|
-|[man_1_simple_shell](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/man_1_simple_shell)|Shell man page|
-|[check_absolute_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/check_absolute_path.c )|Checks if a path is absolute|
-|[custom_getline.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/master/custom_getline.c)|custom getline for input reading|
-|[custom_realloc.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/master/custom_realloc.c)|Custom implementation of realloc function for memory management|
-|[custom_strtok.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/custom_strtok.c)|Custom implementation of strtok function for string parsing|
-|[env_builtins.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/env_builtins.c)|Handles built-in environment commands (env, setenv, unsetenv)|
-|[execute_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/execute_command.c)|Handles shell command execution|
-|[find_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_command.c)|Searches for commands in PATH|
-|[find_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_path.c)|Handles PATH and executable search|
-|[fork_and_execute.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/fork_and_execute.c)|Manages process creation and execution|
-|[free_args.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_args.c)|Frees argument memory|
-|[free_tokens.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_tokens.c)|Frees token memory|
-|[hsh](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/hsh)|Shell executable|
-|[free_string_array.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_string_array.c)|Frees memory allocated for array of strings|
-|[main.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/main.c)|Program entry point|
-|[main.h](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/main.h)|Header file with prototypes and structures |
-|[print_env.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/print_env.c)|Displays environment variables|
-|[search_in_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/search_in_path.c)|Searches commands in PATH directories|
-|[sigint_handler.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/sigint_handler.c)|Handles SIGINT signal (Ctrl+C) interruption|
-|[string_to_int.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/string_to_int.c)|Converts string to integer|
-|[test_ls_2](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/test_ls_2)|Additional test file|
-|[tokenize_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/tokenize_command.c)|Splits command into tokens|
+|[AUTHORS](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/AUTHORS)|Contributors in this repository|
+|[README.md](https://github.com/Pmichel74holbertonschool-simple_shell/blob/main/README.md)|Information about our repository|
+|[man_1_simple_shell](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/man_1_simple_shell)|Shell man page|
+|[check_absolute_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/check_absolute_path.c )|Checks if a path is absolute|
+|[custom_getline.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/main/custom_getline.c)|custom getline for input reading|
+|[custom_realloc.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/main/custom_realloc.c)|Custom implementation of realloc function for memory management|
+|[custom_strtok.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/custom_strtok.c)|Custom implementation of strtok function for string parsing|
+|[env_builtins.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/env_builtins.c)|Handles built-in environment commands (env, setenv, unsetenv)|
+|[execute_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/execute_command.c)|Handles shell command execution|
+|[find_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/find_command.c)|Searches for commands in PATH|
+|[find_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/find_path.c)|Handles PATH and executable search|
+|[fork_and_execute.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/fork_and_execute.c)|Manages process creation and execution|
+|[free_args.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/free_args.c)|Frees argument memory|
+|[free_tokens.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/free_tokens.c)|Frees token memory|
+|[hsh](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/hsh)|Shell executable|
+|[free_string_array.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/free_string_array.c)|Frees memory allocated for array of strings|
+|[main.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/main.c)|Program entry point|
+|[main.h](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/main.h)|Header file with prototypes and structures |
+|[print_env.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/print_env.c)|Displays environment variables|
+|[search_in_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/search_in_path.c)|Searches commands in PATH directories|
+|[sigint_handler.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/sigint_handler.c)|Handles SIGINT signal (Ctrl+C) interruption|
+|[string_to_int.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/string_to_int.c)|Converts string to integer|
+|[test_ls_2](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/test_ls_2)|Additional test file|
+|[tokenize_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/tokenize_command.c)|Splits command into tokens|
 
 
 
