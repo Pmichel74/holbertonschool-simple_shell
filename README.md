@@ -21,9 +21,29 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 ### Files
 
-- [**The \_printf Project**](#the-_printf-project)
-- [General requirements](#general-requirements)
-- [Allowed functions used](#allowed-functions-used)
+|File|Description|
+|---|---|
+|[AUTHORS](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/main/AUTHORS)|Contributors in this repository|
+|[README.md](https://github.com/Pmichel74holbertonschool-simple_shell/blob/README.md)|Information about our repository|
+|[check_absolute_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/check_absolute_path.c )|Execute builtins and commands|
+|[custom_getline.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/custom_getline.c)|Get variable PATH|
+|[custom_realloc.c](https://github.com/Pmichel74//holbertonschool-simple_shell/blob/master/custom_realloc.c)|Prints enviroment to stndard output|
+|[custom_strtok.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/custom_strtok.c)|Gets input|
+|[env_builtins.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/env_builtins.c)|Main arguments functions||[hsh_string_foos.c](https://github.com/Pmichel74/holbertonschool-/blob/master/hsh_string_foos.c)|Function to work and modifie string|
+|[execute_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/master/blob/master/execute_command.c)|Tokenizes a stirng|
+|[find_command.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_command.c)|Manual page our of Simple Shell|
+|[find_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/find_path.c)|Prototypes functions and headers|
+|[fork_and_execute.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/fork_and_execute.c)|Prototypes functions and headers|
+|[free_string_array.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/free_string_array.c)|Prototypes functions and headers|
+|[main.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/main.c)|Prototypes functions and headers|
+|[print_env.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/print_env.c)|Prototypes functions and headers|
+|[search_in_path.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/search_in_path.c)|Prototypes functions and headers|
+|[sigint_handler.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/sigint_handler.c)|Prototypes functions and headers|
+|[string_to_int.c](https://github.com/Pmichel74/holbertonschool-simple_shell/blob/master/string_to_int.cll.h)|Prototypes functions and headers|
+
+
+
+
 
 ### General requirements
  * Allowed editors: vi, vim, emacs
@@ -39,20 +59,20 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 | System Calls | Library Functions | Process Functions |
 |-------------|-------------------|-------------------|
-| • access | • fflush | • execve |
-| • chdir | • free | • fork |
-| • close | • getline | • getpid |
-| • closedir | • malloc | • kill |
-| • open | • perror | • wait |
-| • opendir | • printf | • waitpid |
-| • read | • fprintf | • wait3 |
-| • write | • sprintf | • wait4 |
-| • signal | • putchar | • _exit |
-| • getcwd | • readdir | • exit |
-| • isatty | • stat | • vfprintf |
-| • lstat | • fstat | • strtok |
-| • stat | • strcat | • strcmp |
-| • strlen | • strcpy | • strncmp |
-| • strncpy | • strstr | • strncat |
+| • `access` | • `fflush` | • `execve` |
+| • `chdir` | • `free` | • `fork` |
+| • `close` | • `getline` | • `getpid` |
+| • `closedir` | • `malloc` | • `kill` |
+| • `open` | • `perror` | • `wait` |
+| • `opendir` | • `printf` | • `waitpid` |
+| • `read` | • `fprintf` | • `wait3` |
+| • `write` | • `sprintf` | • `wait4` |
+| • `signal` | • `putchar` | • `_exit` |
+| • `getcwd` | • `readdir` | • `exit` |
+| • `isatty` | • `stat` | • `vfprintf` |
+| • `lstat` | • `fstat` | • `strtok` |
+| • `stat` | • `strcat` | • `strcmp` |
+| • `strlen` | • `strcpy` | • `strncmp` |
+| • `strncpy` | • `strstr` | • `strncat` |
 
 
