@@ -103,7 +103,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
  Command to execute Man Page : man./man_simple_shell
 
-
+```
 SIMPLE_SHELL                   User Commands                  Holberton School - January  2025
 
 NAME
@@ -197,7 +197,7 @@ BUGS
 
 
 SIMPLE_SHELL -                  January 2025                  SIMPLE_SHELL
-
+```
 
 ## Testing
 
