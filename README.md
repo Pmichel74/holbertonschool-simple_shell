@@ -101,7 +101,7 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 
 ## Man page
 
- Command to execute Man Page : man./man_simple_shell
+ Command to execute Man Page : man ./man_1_simple_shell
 
 ```
 SIMPLE_SHELL                   User Commands                  Holberton School - January  2025
@@ -189,7 +189,7 @@ SIGNALS
 FILES
        No configuration files are used.
 
-AUTHOR
+AUTHORS
        Patrick MICHEL and Benjamin RISTORD
 
 BUGS
