@@ -101,7 +101,9 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 - Or run the shell in non-interactive mode: example `echo "Hello world!" | ./hsh`
 
 ## Man page
+'''
 
+'''
 
 ## Testing
 
