@@ -1,6 +1,5 @@
 <p align="center">
 <img src="img/Shell.jpg">
-
 <h1>Simple Shell</h1>
 Release date January 10, 2025
 </p>
@@ -101,9 +100,104 @@ A lightweight UNIX command interpreter that executes commands from standard inpu
 - Or run the shell in non-interactive mode: example `echo "Hello world!" | ./hsh`
 
 ## Man page
-'''
 
-'''
+ Command to execute Man Page : man./man_simple_shell
+
+
+SIMPLE_SHELL                   User Commands                  Holberton School - January  2025
+
+NAME
+       simple_shell - a simple command line interpreter
+
+SYNOPSIS
+       simple_shell
+
+DESCRIPTION
+       simple_shell is a basic command line interpreter that executes commands
+       read from standard input. It implements a subset of the functionality
+       found in traditional Unix shells.
+
+       The shell operates in two modes: interactive and non-interactive.
+
+       Interactive Mode:
+              When simple_shell is invoked without arguments and with its input
+              connected to a terminal, it runs in interactive mode. In this mode,
+              it displays a prompt ($) and waits for user input.
+
+       Non-Interactive Mode:
+              When simple_shell is invoked with standard input not connected to
+              a terminal, it reads and executes commands without displaying a
+              prompt.
+
+COMMAND EXECUTION
+       The shell executes commands in the following order:
+
+       1. The command line is read and split into words using space, tab, and
+          newline as delimiters.
+
+       2. If the command starts with a / or ./, it is treated as an absolute or
+          relative path.
+
+       3. Otherwise, the shell searches for the command in the directories
+          listed in the PATH environment variable.
+
+       4. Built-in commands are executed directly by the shell.
+
+       5. External commands are executed in a new process.
+
+BUILTIN COMMANDS
+       The following built-in commands are supported:
+
+       exit [status]
+              Exit the shell. If status is specified, it is used as the exit
+              status; otherwise, the exit status of the last command is used.
+
+       env    Print the current environment variables.
+
+       setenv VARIABLE VALUE
+              Set an environment variable. If the variable already exists, its
+              value is updated.
+
+       unsetenv VARIABLE
+              Remove an environment variable.
+
+ENVIRONMENT
+       The shell uses the following environment variables:
+
+       PATH   A colon-separated list of directories to search for commands.
+
+EXIT STATUS
+       The shell returns the exit status of the last command executed, or 127
+       if the command was not found.
+
+EXAMPLES
+       Run a command:
+              $ ls -l
+
+       Set an environment variable:
+              $ setenv MY_VAR hello
+
+       Exit with specific status:
+              $ exit 2
+
+SIGNALS
+       The shell handles the following signals:
+
+       SIGINT (Ctrl-C)
+              Interrupts the current foreground command.
+
+FILES
+       No configuration files are used.
+
+AUTHOR
+       Patrick MICHEL and Benjamin RISTORD
+
+BUGS
+       Report bugs to the project repository.
+
+
+SIMPLE_SHELL -                  January 2025                  SIMPLE_SHELL
+
 
 ## Testing
 
