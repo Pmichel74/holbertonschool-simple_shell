@@ -16,7 +16,6 @@
 int main(int argc, char *argv[], char *envp[]);
 
 /* Command input processing */
-char *read_command(void);
 char **tokenize_command(char *command);
 void free_string_array(char **array);
 
