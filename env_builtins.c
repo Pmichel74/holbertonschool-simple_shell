@@ -77,3 +77,44 @@ int _unsetenv(char **args, char **envp, char *program_name)
 	fprintf(stderr, "%s: unsetenv: %s not found\n", program_name, args[1]);
 	return (1);
 }
+/**
+ * _getenv - Retrieve the value of an environment variable
+ * @name: Name of the environment variable (e.g., "HOME")
+ * @envp: The environment array of strings
+ *
+ * Description:
+ *   Searches the envp array for a string matching "name=".
+ *   If found, returns a pointer to the substring after '='.
+ *   If not found, returns NULL.
+ *
+ * Return: Value of the environment variable or NULL if not found
+ */
+char *_getenv(const char *name, char **envp)
+{
+	int i;
+	size_t name_len;
+
+	/* If name or envp is invalid, return NULL */
+	if (!name || !envp)
+		return (NULL);
+
+	name_len = strlen(name);
+
+	/* Loop through each environment variable in envp */
+	for (i = 0; envp[i]; i++)
+	{
+		/* Check if the current variable starts with name= */
+		if (strncmp(envp[i], name, name_len) == 0 &&
+			envp[i][name_len] == '=')
+		{
+			/*
+			 * Return a pointer to the value part, which is
+			 * just after the '=' character
+			 */
+			return (envp[i] + name_len + 1);
+		}
+	}
+
+	/* If no match was found, return NULL */
+	return (NULL);
+}

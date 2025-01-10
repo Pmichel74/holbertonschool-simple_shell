@@ -36,7 +36,7 @@ char *find_command(char *command, char *envp[]);
 void print_env(char *envp[]);
 int exit_command(char **args, char *program_name,
 	int last_status);
-int cd_command(char **args, char *program_name);
+int cd_command(char **args, char **envp, char *program_name);
 int _setenv(char **args, char **envp,
 	char *program_name);
 int _unsetenv(char **args, char **envp,
@@ -48,5 +48,6 @@ ssize_t custom_getline(char **lineptr, size_t *n,
 char *custom_strtok(char *str, const char *delim);
 void sigint_handler(int sig_num);
 int string_to_int(const char *str, int *result);
+char *_getenv(const char *name, char **envp);
 
 #endif
