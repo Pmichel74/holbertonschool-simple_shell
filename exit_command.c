@@ -8,30 +8,32 @@
  *
  * Return: The exit status to be used when exiting the shell
  */
-
 int exit_command(char **args, char *program_name, int last_status)
 {
 	int exit_status = last_status;
-	int parsed_status;
+	long parsed_status;
+	char *endptr;
 
 	if (args[1] != NULL)
 	{
 		if (args[2] != NULL)
 		{
-			fprintf(stderr, "%s: exit: too many arguments\n", program_name);
+			fprintf(stderr, "%s: 1: exit: too many arguments\n", program_name);
 			return (1);
 		}
 
-		if (string_to_int(args[1], &parsed_status) == 0)
+		errno = 0;
+		parsed_status = strtol(args[1], &endptr, 10);
+
+		if (*endptr != '\0' || errno == ERANGE ||
+			parsed_status > 255 || parsed_status < 0)
 		{
-			exit_status = parsed_status;
+			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n",
+					program_name, args[1]);
+			exit(2);
 		}
-		else
-		{
-			fprintf(stderr, "%s: exit: Illegal number: %s\n", program_name, args[1]);
-			exit_status = 2;
-		}
+		exit_status = (int)parsed_status;
 	}
 
-	return (exit_status);
+	exit(exit_status);
 }
