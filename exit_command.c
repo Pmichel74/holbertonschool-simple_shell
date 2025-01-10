@@ -35,5 +35,5 @@ int exit_command(char **args, char *program_name, int last_status)
 		exit_status = (int)parsed_status;
 	}
 
-	exit(exit_status);
+	return (exit_status);
 }
