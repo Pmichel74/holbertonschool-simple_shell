@@ -1,32 +1,35 @@
 #include "main.h"
 
 /**
- * cd_command - Change current directory
+ * cd_command - Change directory builtin command
  * @args: Arguments array
  * @program_name: Shell program name
  * Return: 0 on success, 1 on failure
  */
 int cd_command(char **args, char *program_name)
 {
-    char *dir, *oldpwd;
-    char current[PATH_MAX];
+    char cwd[1024];
+    char *dir = NULL;
 
-    if (!getcwd(current, PATH_MAX))
+    /* Save current directory for OLDPWD */
+    if (getcwd(cwd, sizeof(cwd)) == NULL)
         return (1);
 
-    if (!args[1]) /* cd with no args */
+    /* Handle cd with no arguments */
+    if (args[1] == NULL)
     {
         dir = getenv("HOME");
-        if (!dir)
+        if (dir == NULL)
         {
             fprintf(stderr, "%s: 1: cd: HOME not set\n", program_name);
             return (1);
         }
     }
-    else if (strcmp(args[1], "-") == 0) /* cd - */
+    /* Handle cd - */
+    else if (strcmp(args[1], "-") == 0)
     {
         dir = getenv("OLDPWD");
-        if (!dir)
+        if (dir == NULL)
         {
             fprintf(stderr, "%s: 1: cd: OLDPWD not set\n", program_name);
             return (1);
@@ -36,23 +39,18 @@ int cd_command(char **args, char *program_name)
     else
         dir = args[1];
 
-    oldpwd = strdup(current);
-    if (!oldpwd)
-        return (1);
-
-    if (chdir(dir) == -1)
+    /* Change directory */
+    if (chdir(dir) != 0)
     {
         fprintf(stderr, "%s: 1: cd: can't cd to %s\n", program_name, dir);
-        free(oldpwd);
         return (1);
     }
 
-    if (getcwd(current, PATH_MAX) != NULL)
-    {
-        setenv("OLDPWD", oldpwd, 1);
-        setenv("PWD", current, 1);
-    }
+    /* Update environment variables */
+    setenv("OLDPWD", cwd, 1);
 
-    free(oldpwd);
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+        setenv("PWD", cwd, 1);
+
     return (0);
 }
