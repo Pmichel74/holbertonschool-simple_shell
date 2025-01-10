@@ -20,7 +20,7 @@ int exit_command(char **args, char *program_name, int last_status)
 		if (args[2] != NULL)
 		{
 			fprintf(stderr, "%s: 1: exit: too many arguments\n", program_name);
-			return (1);
+			exit(1);
 		}
 
 		if (string_to_int(args[1], &parsed_status) == -1)
