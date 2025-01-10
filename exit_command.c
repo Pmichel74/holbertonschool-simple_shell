@@ -11,8 +11,8 @@
 int exit_command(char **args, char *program_name, int last_status)
 {
 	int exit_status = last_status;
-	long parsed_status;
-	char *endptr;
+	int i = 0;
+	long number = 0;
 
 	if (args[1] != NULL)
 	{
@@ -22,17 +22,30 @@ int exit_command(char **args, char *program_name, int last_status)
 			return (1);
 		}
 
-		errno = 0;
-		parsed_status = strtol(args[1], &endptr, 10);
+		/* Handle negative numbers */
+		if (args[1][0] == '-')
+			i = 1;
 
-		if (*endptr != '\0' || errno == ERANGE ||
-			parsed_status > 255 || parsed_status < 0)
+		/* Validate and convert string to number */
+		while (args[1][i] != '\0')
 		{
-			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n",
-					program_name, args[1]);
-			exit(2);
+			if (args[1][i] < '0' || args[1][i] > '9')
+			{
+				fprintf(stderr, "%s: 1: exit: Illegal number: %s\n",
+				program_name, args[1]);
+				exit(2);
+			}
+			number = number * 10 + (args[1][i] - '0');
+			i++;
 		}
-		exit_status = (int)parsed_status;
+
+		/* Apply negative sign if needed */
+		if (args[1][0] == '-')
+			number = -number;
+
+		exit_status = number % 256;
+		if (exit_status < 0)
+			exit_status += 256;
 	}
 
 	exit(exit_status);
