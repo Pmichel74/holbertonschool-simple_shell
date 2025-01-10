@@ -33,5 +33,5 @@ int exit_command(char **args, char *program_name, int last_status)
 			exit_status += 256;
 	}
 
-	return (exit_status);
+	exit(exit_status);
 }
