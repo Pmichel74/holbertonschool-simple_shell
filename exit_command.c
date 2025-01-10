@@ -1,4 +1,5 @@
 #include "main.h"
+/* betty-style: off */
 
 /**
  * exit_command - Handles the exit command in the shell
