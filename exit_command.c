@@ -12,7 +12,7 @@
  */
 int exit_command(char **args, char *program_name, int last_status)
 {
-	int status = last_status;
+	int exit_status = last_status;
 	int parsed_status;
 
 	if (args[1] != NULL)
@@ -26,19 +26,19 @@ int exit_command(char **args, char *program_name, int last_status)
 		if (string_to_int(args[1], &parsed_status) == -1)
 		{
 			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", program_name, args[1]);
-			return (2);
+			exit(2);
 		}
 
 		/* Handle negative numbers and ensure proper modulo */
 		if (parsed_status < 0)
 		{
-			status = (256 - (-parsed_status % 256)) % 256;
+			exit_status = (256 - (-parsed_status % 256)) % 256;
 		}
 		else
 		{
-			status = parsed_status % 256;
+			exit_status = parsed_status % 256;
 		}
 	}
 
-	return (status);
+	return (exit_status);
 }
