@@ -43,6 +43,5 @@ int exit_command(char **args, char *program_name, int last_status)
 		}
 	}
 
-	free(args);
 	return (exit_status);
 }
