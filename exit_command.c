@@ -12,11 +12,13 @@
  */
 int exit_command(char **args, char *program_name, int last_status)
 {
-	int exit_status = last_status;
-	int parsed_status;
+	 int exit_status = last_status;
+     int i, len_of_int = 10;
+    unsigned int num = 0;
+    unsigned int max = 1 << (sizeof(int) * 8 - 1);
 
 	if (!args || !args[0])
-		return (exit_status);
+		return (-3);
 
 	if (args[1] != NULL)
 	{
@@ -26,21 +28,31 @@ int exit_command(char **args, char *program_name, int last_status)
 			return (1);
 		}
 
-		if (string_to_int(args[1], &parsed_status) == -1)
+		/* Handle '+' prefix */
+		i = (args[1][0] == '+') ? 1 : 0;
+		if (args[1][0] == '+')
+			len_of_int++;
+
+		 /* Validate number and check overflow */
+		while (args[1][i])
+		{
+			if (i <= len_of_int && args[1][i] >= '0' && args[1][i] <= '9')
+				num = (num * 10) + (args[1][i] - '0');
+			else
+			{
+				fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", program_name, args[1]);
+				return (2);
+			}
+			i++;
+		}
+
+		if (num > max - 1)
 		{
 			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", program_name, args[1]);
 			return (2);
 		}
 
-		/* Handle negative numbers and ensure proper modulo */
-		if (parsed_status < 0)
-		{
-			exit_status = (256 - (-parsed_status % 256)) % 256;
-		}
-		else
-		{
-			exit_status = parsed_status % 256;
-		}
+		exit_status = num % 256;
 	}
 
 	return (exit_status);
