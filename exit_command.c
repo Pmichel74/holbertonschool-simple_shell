@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdlib.h>
 /* betty-style: off */
 
 /**
@@ -28,9 +29,15 @@ int exit_command(char **args, char *program_name, int last_status)
 			exit(2);
 		}
 
-		exit_status = parsed_status % 256;
-		if (exit_status < 0)
-			exit_status += 256;
+		/* Handle negative numbers and ensure proper modulo */
+		if (parsed_status < 0)
+		{
+			exit_status = (256 - (-parsed_status % 256)) % 256;
+		}
+		else
+		{
+			exit_status = parsed_status % 256;
+		}
 	}
 
 	exit(exit_status);
