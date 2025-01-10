@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
- * is_delim - check if a character is a delimiter
- * @c: character to check
- * @delim: string of delimiters
+ * is_delim - Check if character is delimiter
+ * @c: Character to check
+ * @delim: String of delimiters
  * Return: 1 if delimiter, 0 if not
  */
 static int is_delim(char c, const char *delim)
@@ -33,6 +33,7 @@ char *custom_strtok(char *str, const char *delim)
 	else if (saved_ptr == NULL)
 		return (NULL);
 
+	/* Skip leading delimiters */
 	while (*saved_ptr && is_delim(*saved_ptr, delim))
 		saved_ptr++;
 
@@ -44,6 +45,7 @@ char *custom_strtok(char *str, const char *delim)
 
 	start = saved_ptr;
 
+	/* Find end of token */
 	while (*saved_ptr && !is_delim(*saved_ptr, delim))
 		saved_ptr++;
 
@@ -52,8 +54,6 @@ char *custom_strtok(char *str, const char *delim)
 		*saved_ptr = '\0';
 		saved_ptr++;
 	}
-	else
-		saved_ptr = NULL;
 
 	return (start);
 }
