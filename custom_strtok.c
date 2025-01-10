@@ -28,7 +28,7 @@ char *custom_strtok(char *str, const char *delim)
 	static char *saved_ptr;
 	char *start;
 
-	/* Handle initial string input */
+	/* Handle initial string input or continue from last position */
 	if (str != NULL)
 		saved_ptr = str;
 	else if (saved_ptr == NULL)
@@ -38,8 +38,8 @@ char *custom_strtok(char *str, const char *delim)
 	while (*saved_ptr && is_delim(*saved_ptr, delim))
 		saved_ptr++;
 
-	/* Check for end of string */
-	if (*saved_ptr == '\0')
+	/* Check for end of string or comment */
+	if (*saved_ptr == '\0' || *saved_ptr == '#')
 	{
 		saved_ptr = NULL;
 		return (NULL);
@@ -47,21 +47,18 @@ char *custom_strtok(char *str, const char *delim)
 
 	start = saved_ptr;
 
-	/* Find end of token */
-	while (*saved_ptr && !is_delim(*saved_ptr, delim))
+	/* Find end of current token */
+	while (*saved_ptr && !is_delim(*saved_ptr, delim) && *saved_ptr != '#')
 		saved_ptr++;
 
-	/* Mark end of token and prepare for next call */
+	/* Mark end of token and setup for next call */
 	if (*saved_ptr)
 	{
 		*saved_ptr = '\0';
 		saved_ptr++;
 	}
 	else
-	{
 		saved_ptr = NULL;
-	}
 
 	return (start);
 }
-
