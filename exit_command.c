@@ -16,7 +16,7 @@ int exit_command(char **args, char *program_name, int last_status)
 	int parsed_status;
 
 	if (!args || !args[0])
-		return (-3);
+		return (exit_status);
 
 	if (args[1] != NULL)
 	{
@@ -43,5 +43,6 @@ int exit_command(char **args, char *program_name, int last_status)
 		}
 	}
 
+	free(args);
 	return (exit_status);
 }
