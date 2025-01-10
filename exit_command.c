@@ -11,7 +11,8 @@
 int exit_command(char **args, char *program_name, int last_status)
 {
 	int exit_status = last_status;
-	int parsed_status;
+	long parsed_status;
+	char *endptr;
 
 	if (args[1] != NULL)
 	{
@@ -21,17 +22,18 @@ int exit_command(char **args, char *program_name, int last_status)
 			return (1);
 		}
 
-		if (string_to_int(args[1], &parsed_status) == -1)
+		errno = 0;
+		parsed_status = strtol(args[1], &endptr, 10);
+
+		if (*endptr != '\0' || errno == ERANGE ||
+			parsed_status > 255 || parsed_status < 0)
 		{
-			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", program_name, args[1]);
+			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n",
+					program_name, args[1]);
 			exit(2);
 		}
-
-		exit_status = parsed_status % 256;
-		if (exit_status < 0)
-			exit_status += 256;
+		exit_status = (int)parsed_status;
 	}
 
 	exit(exit_status);
 }
-
