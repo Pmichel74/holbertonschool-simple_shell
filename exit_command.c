@@ -15,6 +15,9 @@ int exit_command(char **args, char *program_name, int last_status)
 	int exit_status = last_status;
 	int parsed_status;
 
+	if (!args || !args[0])
+		return (exit_status);
+
 	if (args[1] != NULL)
 	{
 		if (args[2] != NULL)
@@ -26,7 +29,7 @@ int exit_command(char **args, char *program_name, int last_status)
 		if (string_to_int(args[1], &parsed_status) == -1)
 		{
 			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", program_name, args[1]);
-			exit(2);
+			return (2);
 		}
 
 		/* Handle negative numbers and ensure proper modulo */
